@@ -731,6 +731,413 @@
       margin-top: 0.2rem;
     }
 
+    .section-shell {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: clamp(1.05rem, 2.4vw, 1.8rem);
+      background:
+        radial-gradient(circle at 12% 16%, rgba(152, 126, 255, 0.11), transparent 36%),
+        linear-gradient(148deg, #ffffff 0%, #f4efff 100%);
+    }
+
+    .launch-section .container,
+    .newsletter-section .container,
+    .playlist-section .container,
+    .events-section .container,
+    .awards-section .container,
+    .memories-section .container,
+    .services-section .container,
+    .cta-section .container,
+    .community-section .container {
+      padding: 0;
+      overflow: visible;
+    }
+
+    .launch-section .container::before,
+    .newsletter-section .container::before,
+    .playlist-section .container::before,
+    .events-section .container::before,
+    .awards-section .container::before,
+    .memories-section .container::before,
+    .services-section .container::before,
+    .cta-section .container::before,
+    .community-section .container::before {
+      display: none;
+    }
+
+    .launch-shell {
+      display: grid;
+      grid-template-columns: minmax(280px, 1.05fr) minmax(260px, 0.95fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .launch-copy {
+      display: grid;
+      gap: 0.8rem;
+      align-content: center;
+    }
+
+    .launch-copy h2 {
+      text-transform: none;
+      letter-spacing: -0.03em;
+      font-size: clamp(1.8rem, 3vw, 2.85rem);
+      line-height: 1.08;
+    }
+
+    .launch-copy p {
+      color: #5a4f79;
+      max-width: 58ch;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.2rem;
+      max-width: 520px;
+    }
+
+    .countdown-cell {
+      border: 1px solid #d4c5ff;
+      border-radius: 14px;
+      padding: 0.58rem 0.5rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .countdown-cell strong {
+      display: block;
+      font-family: "Sora", sans-serif;
+      font-size: 1.15rem;
+      line-height: 1.1;
+      color: #2e2350;
+    }
+
+    .countdown-cell span {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6a6188;
+      font-weight: 700;
+    }
+
+    .launch-card {
+      border: 1px solid #cdbbff;
+      border-radius: 22px;
+      padding: 1.1rem;
+      background: rgba(255, 255, 255, 0.72);
+      display: grid;
+      gap: 0.7rem;
+      align-content: center;
+    }
+
+    .launch-card h3 {
+      text-transform: none;
+      font-size: clamp(1.35rem, 1.9vw, 1.7rem);
+      letter-spacing: -0.02em;
+    }
+
+    .launch-card p {
+      color: #5f557f;
+    }
+
+    .launch-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .launch-meta span {
+      border: 1px solid #d3c3ff;
+      border-radius: 999px;
+      padding: 0.25rem 0.62rem;
+      font-size: 0.74rem;
+      color: #524772;
+      background: #f1ebff;
+      font-weight: 600;
+    }
+
+    .newsletter-shell {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .newsletter-copy h2 {
+      text-transform: none;
+      letter-spacing: -0.03em;
+      font-size: clamp(1.75rem, 2.8vw, 2.6rem);
+    }
+
+    .newsletter-copy p {
+      color: #5f547f;
+      margin-top: 0.35rem;
+      max-width: 58ch;
+    }
+
+    .newsletter-card {
+      border: 1px solid #cdbdff;
+      border-radius: 20px;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.74);
+      display: grid;
+      gap: 0.72rem;
+    }
+
+    .newsletter-card form {
+      display: grid;
+      gap: 0.6rem;
+      grid-template-columns: 1fr auto;
+    }
+
+    .newsletter-card input {
+      min-width: 200px;
+      padding: 0.76rem 0.95rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--line-dark);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .newsletter-disclaimer {
+      font-size: 0.8rem;
+      color: #655a83;
+    }
+
+    .playlist-shell {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.95fr) minmax(280px, 1.05fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .playlist-media {
+      border-radius: 22px;
+      overflow: hidden;
+      min-height: 300px;
+      border: 1px solid #c9b8ff;
+      box-shadow: 0 14px 32px rgba(88, 64, 168, 0.22);
+    }
+
+    .playlist-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .playlist-panel {
+      border: 1px solid #cebdff;
+      border-radius: 22px;
+      padding: 1.1rem;
+      background: rgba(255, 255, 255, 0.72);
+      display: grid;
+      gap: 0.8rem;
+      align-content: center;
+    }
+
+    .playlist-panel h2 {
+      text-transform: none;
+      letter-spacing: -0.03em;
+      font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+    }
+
+    .playlist-panel p {
+      color: #5f557d;
+    }
+
+    .track-list {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .track {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #dccfff;
+      border-radius: 12px;
+      padding: 0.46rem 0.58rem;
+      font-size: 0.83rem;
+      color: #4c426b;
+      background: #f6f1ff;
+    }
+
+    .track span {
+      font-family: "Sora", sans-serif;
+      font-size: 0.72rem;
+      color: #6d618f;
+    }
+
+    .events-shell,
+    .awards-shell,
+    .memories-shell,
+    .services-shell {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .events-grid,
+    .awards-grid,
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .event-item,
+    .award-card,
+    .service-card {
+      border: 1px solid #cdbdff;
+      border-radius: 18px;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.78);
+      display: grid;
+      gap: 0.56rem;
+    }
+
+    .event-item h3,
+    .award-card h3,
+    .service-card h3 {
+      text-transform: none;
+      letter-spacing: -0.015em;
+      font-size: clamp(1.1rem, 1.6vw, 1.34rem);
+      line-height: 1.15;
+    }
+
+    .event-item p,
+    .award-card p,
+    .service-card p {
+      color: #5f557f;
+      font-size: 0.96rem;
+      line-height: 1.42;
+    }
+
+    .event-date {
+      display: inline-flex;
+      width: fit-content;
+      border: 1px solid #c7b3ff;
+      border-radius: 999px;
+      padding: 0.24rem 0.62rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #544a74;
+      background: #f1e9ff;
+      font-weight: 700;
+    }
+
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .memory-card {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid #cdbbff;
+      background: #fff;
+      display: grid;
+    }
+
+    .memory-card img {
+      width: 100%;
+      aspect-ratio: 16 / 11;
+      object-fit: cover;
+    }
+
+    .memory-card p {
+      padding: 0.74rem 0.8rem 0.88rem;
+      color: #564b78;
+      font-size: 0.9rem;
+    }
+
+    .service-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: #f5f1ff;
+      background: linear-gradient(145deg, #6f52ff 0%, #8a72ff 100%);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .cta-shell {
+      text-align: center;
+      display: grid;
+      gap: 0.85rem;
+      justify-items: center;
+      padding-top: clamp(1.2rem, 2.6vw, 1.9rem);
+      padding-bottom: clamp(1.2rem, 2.6vw, 1.9rem);
+    }
+
+    .cta-shell h2 {
+      text-transform: none;
+      letter-spacing: -0.03em;
+      max-width: 22ch;
+      font-size: clamp(1.7rem, 3vw, 2.8rem);
+      line-height: 1.08;
+    }
+
+    .cta-shell p {
+      color: #5f557f;
+      max-width: 62ch;
+    }
+
+    .community-shell {
+      display: grid;
+      grid-template-columns: minmax(280px, 1.1fr) minmax(260px, 0.9fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .community-copy {
+      display: grid;
+      gap: 0.7rem;
+      align-content: center;
+    }
+
+    .community-copy h2 {
+      text-transform: none;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+    }
+
+    .community-copy p {
+      color: #5d537d;
+      max-width: 57ch;
+    }
+
+    .community-card {
+      border: 1px solid #cdbdff;
+      border-radius: 22px;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.76);
+      display: grid;
+      gap: 0.72rem;
+      align-content: center;
+    }
+
+    .community-points {
+      display: grid;
+      gap: 0.46rem;
+    }
+
+    .community-points li {
+      list-style: none;
+      border: 1px solid #ddd2ff;
+      border-radius: 12px;
+      padding: 0.42rem 0.58rem;
+      color: #584d79;
+      font-size: 0.88rem;
+      background: #f8f4ff;
+    }
+
     .impact-section .container {
       padding: 0;
       overflow: visible;
@@ -1046,6 +1453,23 @@
       .book-meta {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .launch-shell,
+      .newsletter-shell,
+      .playlist-shell,
+      .community-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .events-grid,
+      .awards-grid,
+      .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .memory-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 720px) {
@@ -1054,6 +1478,18 @@
       }
 
       .book-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .countdown-grid,
+      .events-grid,
+      .awards-grid,
+      .services-grid,
+      .memory-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .newsletter-card form {
         grid-template-columns: 1fr;
       }
     }
@@ -1069,6 +1505,14 @@
       .hero-actions .btn,
       .newsletter .btn { width: 100%; }
       .book-actions .btn { width: 100%; }
+      .launch-card .btn,
+      .newsletter-card .btn,
+      .playlist-panel .btn,
+      .event-item .btn,
+      .award-card .btn,
+      .community-card .btn {
+        width: 100%;
+      }
       .nav { gap: 0.8rem; }
       .logo-mark img { width: 132px; }
       .hero-gallery {
@@ -1264,164 +1708,223 @@
       </div>
     </section>
 
-    <section>
-      <div class="container split">
-        <div>
-          <span class="section-tag">The Countdown Begins!</span>
-          <h2>Get ready for the book launch of [Author Name]’s new bestseller.</h2>
-          <p>We’re counting down the days until you can get your hands on this exciting new read.</p>
-          <p><strong>Countdown Timer:</strong> [Countdown]</p>
+    <section class="launch-section">
+      <div class="container section-shell launch-shell">
+        <div class="launch-copy">
+          <span class="section-tag">The Countdown Begins</span>
+          <h2>Get ready for [Author Name]’s next bestseller launch.</h2>
+          <p>We’re counting down to release day with behind-the-scenes updates, early excerpts, and exclusive event access.</p>
+          <div class="countdown-grid">
+            <div class="countdown-cell">
+              <strong>12</strong>
+              <span>Days</span>
+            </div>
+            <div class="countdown-cell">
+              <strong>08</strong>
+              <span>Hours</span>
+            </div>
+            <div class="countdown-cell">
+              <strong>42</strong>
+              <span>Minutes</span>
+            </div>
+            <div class="countdown-cell">
+              <strong>19</strong>
+              <span>Seconds</span>
+            </div>
+          </div>
         </div>
-        <div class="split-card">
+        <aside class="launch-card">
           <h3>Join the launch event</h3>
-          <p>Reserve your seat for the virtual celebration and live Q&amp;A.</p>
+          <p>Reserve your seat for the virtual celebration, live Q&amp;A, and first-chapter reveal.</p>
+          <div class="launch-meta">
+            <span>Live Stream</span>
+            <span>Author Q&amp;A</span>
+            <span>Giveaways</span>
+          </div>
           <a class="btn btn-primary" href="#events">Join the Launch Event</a>
-        </div>
+        </aside>
       </div>
     </section>
 
-    <section class="newsletter">
-      <div class="container newsletter-inner">
-        <div>
+    <section class="newsletter-section">
+      <div class="container section-shell newsletter-shell">
+        <div class="newsletter-copy">
           <span class="section-tag">Silent Book Club Delivered</span>
           <h2>Get monthly spotlights, private invites, and author gifts.</h2>
+          <p>One curated email each month with upcoming events, new releases, and editorial picks from the Spotlight team.</p>
         </div>
-        <form>
-          <input type="email" placeholder="Email address" />
-          <button class="btn btn-primary" type="submit">Subscribe</button>
-        </form>
+        <div class="newsletter-card">
+          <form>
+            <input type="email" placeholder="Email address" />
+            <button class="btn btn-primary" type="submit">Subscribe</button>
+          </form>
+          <p class="newsletter-disclaimer">No spam. Unsubscribe anytime.</p>
+        </div>
       </div>
     </section>
 
-    <section>
-      <div class="container playlist">
-        <img src="https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?auto=format&fit=crop&w=1200&q=80" alt="Vinyl and headphones" />
-        <div class="playlist-content">
+    <section class="playlist-section">
+      <div class="container section-shell playlist-shell">
+        <div class="playlist-media">
+          <img src="https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?auto=format&fit=crop&w=1200&q=80" alt="Vinyl and headphones" />
+        </div>
+        <div class="playlist-panel">
           <span class="section-tag">Listen in</span>
           <h2>Spotlight Surge playlists</h2>
-          <p>Curated soundtracks for writing sprints, reading marathons, and café slow mornings.</p>
+          <p>Curated soundtracks for writing sprints, reading marathons, and long café mornings.</p>
+          <div class="track-list">
+            <div class="track"><p>Writer’s Dawn</p><span>42 min</span></div>
+            <div class="track"><p>Quiet Chapters</p><span>55 min</span></div>
+            <div class="track"><p>Evening Revision</p><span>38 min</span></div>
+          </div>
           <a class="btn btn-secondary" href="#community">Listen now</a>
         </div>
       </div>
     </section>
 
-    <section id="events">
-      <div class="container">
+    <section id="events" class="events-section">
+      <div class="container section-shell events-shell">
         <div class="section-title">
           <span class="section-tag">Don’t Miss These Upcoming Literary Events</span>
           <h2>Be part of the action with launches, live author sessions, and more.</h2>
         </div>
-        <div class="stories-grid">
-          <div class="story-card">
-            <h3>Event 1: [Event Title]</h3>
-            <p>Date: [Event Date]</p>
-            <p>From book launches to live author sessions, explore what’s next.</p>
+        <div class="events-grid">
+          <article class="event-item">
+            <span class="event-date">May 17</span>
+            <h3>Inside the Draft: Building Memorable Characters</h3>
+            <p>Join an interactive workshop on character design with practical prompts and live critique.</p>
             <a class="btn btn-secondary" href="#">View Event Details</a>
-          </div>
-          <div class="story-card">
-            <h3>Event 2: [Event Title]</h3>
-            <p>Date: [Event Date]</p>
-            <p>Connect with your favorite writers and fellow readers.</p>
+          </article>
+          <article class="event-item">
+            <span class="event-date">May 24</span>
+            <h3>Author Spotlight Live: [Event Title]</h3>
+            <p>Connect with your favorite writers and fellow readers in a conversational live session.</p>
             <a class="btn btn-secondary" href="#">View Event Details</a>
-          </div>
+          </article>
+          <article class="event-item">
+            <span class="event-date">Jun 02</span>
+            <h3>Book Launch Night: [Event Title]</h3>
+            <p>Celebrate a new release with readings, audience questions, and behind-the-book stories.</p>
+            <a class="btn btn-secondary" href="#">View Event Details</a>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="authors">
-      <div class="container">
+    <section id="authors" class="awards-section">
+      <div class="container section-shell awards-shell">
         <div class="section-title">
           <span class="section-tag">Award-Winning Books You Can’t Miss</span>
-          <h2>Explore the finest in literature, handpicked for their exceptional storytelling.</h2>
+          <h2>Explore standout titles selected for exceptional storytelling.</h2>
         </div>
-        <div class="stories-grid">
-          <div class="story-card">
+        <div class="awards-grid">
+          <article class="award-card">
             <h3>Book 1: [Title]</h3>
-            <p>Exceptional storytelling and lasting impact.</p>
+            <p>Exceptional storytelling and lasting impact with unforgettable characters.</p>
             <a class="btn btn-secondary" href="#">Discover More Books</a>
-          </div>
-          <div class="story-card">
+          </article>
+          <article class="award-card">
             <h3>Book 2: [Title]</h3>
-            <p>Remarkable writing that stays with readers worldwide.</p>
+            <p>Remarkable writing that stays with readers long after the final page.</p>
             <a class="btn btn-secondary" href="#">Discover More Books</a>
-          </div>
+          </article>
+          <article class="award-card">
+            <h3>Book 3: [Title]</h3>
+            <p>Critically acclaimed prose and emotional depth that define contemporary fiction.</p>
+            <a class="btn btn-secondary" href="#">Discover More Books</a>
+          </article>
         </div>
       </div>
     </section>
 
-    <section>
-      <div class="container">
+    <section class="memories-section">
+      <div class="container section-shell memories-shell">
         <div class="section-title">
           <span class="section-tag">Relive the Magic of Past Events</span>
           <h2>From intimate author talks to grand launches, revisit the moments.</h2>
         </div>
-        <div class="stories-grid">
-          <div class="story-card">
-            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80" alt="Past event 1" />
-            <p>[Image from Past Event 1]</p>
-          </div>
-          <div class="story-card">
-            <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80" alt="Past event 2" />
-            <p>[Image from Past Event 2]</p>
-          </div>
+        <div class="memory-grid">
+          <article class="memory-card">
+            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1000&q=80" alt="Past event audience during reading" />
+            <p>Author reading and audience Q&amp;A session from our spring series.</p>
+          </article>
+          <article class="memory-card">
+            <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1000&q=80" alt="Bookshelf event setup" />
+            <p>Community launch night featuring independent authors and local book clubs.</p>
+          </article>
+          <article class="memory-card">
+            <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1000&q=80" alt="Readers discussing books at event table" />
+            <p>Roundtable discussion exploring story craft, publishing journeys, and reader trends.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section>
-      <div class="container">
+    <section class="services-section">
+      <div class="container section-shell services-shell">
         <div class="section-title">
           <span class="section-tag">Supporting Authors, Enriching Readers</span>
           <h2>Whether you're promoting a book or discovering new voices, we’re here for you.</h2>
         </div>
-        <div class="stories-grid">
-          <div class="story-card">
+        <div class="services-grid">
+          <article class="service-card">
+            <span class="service-icon">01</span>
             <h3>Book Promotion</h3>
-            <p>Reach your audience through strategic marketing and promotions.</p>
-          </div>
-          <div class="story-card">
+            <p>Reach your audience through editorial campaigns, social features, and launch bundles.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-icon">02</span>
             <h3>Author Interviews</h3>
-            <p>Get in-depth with the minds behind the books.</p>
-          </div>
-          <div class="story-card">
+            <p>Get in-depth with the minds behind the books through spotlight conversations.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-icon">03</span>
             <h3>Literary Events</h3>
-            <p>Connect with the literary world through engaging events.</p>
-          </div>
-          <div class="story-card">
+            <p>Connect with the literary world through engaging online and in-person experiences.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-icon">04</span>
             <h3>Reader Community</h3>
-            <p>Be part of a vibrant, growing community.</p>
-          </div>
-          <div class="story-card">
+            <p>Join a vibrant, growing network of readers who share recommendations and reviews.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-icon">05</span>
             <h3>Editorial Reviews</h3>
-            <p>Gain insights and reviews that highlight your book’s best qualities.</p>
-          </div>
-          <div class="story-card">
+            <p>Gain meaningful critique and curated highlights that showcase your book’s strengths.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-icon">06</span>
             <h3>Marketing Support</h3>
-            <p>Let us help you amplify your book’s message.</p>
-          </div>
+            <p>Amplify your message with practical strategy, positioning, and growth guidance.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="quote">
-      <div class="container">
+    <section class="cta-section">
+      <div class="container section-shell cta-shell">
         <p class="section-tag">Begin Your Literary Journey Today</p>
-        <h2>Whether you're an author ready to promote your book or a reader looking for the next great story, we’re here to help.</h2>
-        <a class="btn btn-primary mt-12" href="#community">Join Now</a>
+        <h2>Whether you're an author ready to promote your book or a reader hunting for your next favorite, we’re here to help.</h2>
+        <p>Join Spotlight Surge to discover stories, meet creators, and take part in a thriving literary community.</p>
+        <a class="btn btn-primary" href="#community">Join Now</a>
       </div>
     </section>
 
-    <section id="community">
-      <div class="container split">
-        <div>
+    <section id="community" class="community-section">
+      <div class="container section-shell community-shell">
+        <div class="community-copy">
           <span class="section-tag">About Spotlight Surge</span>
           <h2>Supporting authors. Enriching readers.</h2>
-          <p>We empower authors, celebrate stories, and build a community of passionate readers who champion great books.</p>
+          <p>We empower authors, celebrate stories, and build a community of passionate readers who champion great books and meaningful conversations.</p>
         </div>
-        <div class="split-card">
+        <div class="community-card">
           <h3>Join the community</h3>
-          <p>Stay updated with the latest book launches and events.</p>
-          <div class="hero-actions mt-1">
+          <ul class="community-points">
+            <li>Get early invitations to launches and author sessions.</li>
+            <li>Receive curated reading lists and monthly editor picks.</li>
+            <li>Connect with a vibrant network of readers and writers.</li>
+          </ul>
+          <div class="book-actions mt-1">
             <a class="btn btn-primary" href="#">Join Now</a>
             <a class="btn btn-secondary" href="#">Contact Us</a>
           </div>
