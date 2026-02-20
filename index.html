@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spotlight Surge | Where Stories Come Alive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f8f6ff;
+      --canvas: #ffffff;
+      --canvas-soft: #f6f2ff;
+      --ink: #201a33;
+      --muted: #5f5679;
+      --line: #d9d2ef;
+      --line-dark: #b8add9;
+      --cobalt: #6c4dff;
+      --lime: #d8c8ff;
+      --card-radius: 24px;
+      --shadow-soft: 0 8px 22px rgba(21, 31, 25, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #fbf9ff 0%, #f2ecff 100%);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 0 4vw;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding-left: clamp(1rem, 2vw, 1.6rem);
+      padding-right: clamp(1rem, 2vw, 1.6rem);
+    }
+
+    header,
+    main,
+    footer {
+      width: 100%;
+      margin: 0;
+    }
+
+    header,
+    footer {
+      border-radius: 0;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: "Sora", sans-serif;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      text-transform: uppercase;
+    }
+
+    h1 { font-size: clamp(2.3rem, 4.8vw, 4.4rem); }
+    h2 { font-size: clamp(1.7rem, 3.2vw, 2.8rem); }
+    h3 { font-size: clamp(1.1rem, 2vw, 1.4rem); }
+
+    p { color: var(--muted); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.72rem 1.3rem;
+      border-radius: 999px;
+      font-weight: 600;
+      border: 1.5px solid var(--line-dark);
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      font-size: 0.92rem;
+      line-height: 1;
+    }
+
+    .btn-primary {
+      background: var(--lime);
+      color: #281f40;
+      border-color: #b69cff;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.01);
+      background: #e4d5ff;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--cobalt);
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    .mt-1 { margin-top: 1rem; }
+    .mt-12 { margin-top: 1.2rem; }
+
+    .section-tag {
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.68rem;
+      color: #6b6288;
+      font-weight: 600;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .logo-mark img {
+      width: 100px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #554a7a;
+    }
+
+    .hero {
+      padding: 1.4rem 0 1rem;
+    }
+
+    .hero-shell {
+      position: relative;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      padding: 2.4rem 0 2.2rem;
+      overflow: hidden;
+    }
+
+    .hero-shell::before,
+    .hero-shell::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.42);
+      pointer-events: none;
+    }
+
+    .hero-shell::before {
+      width: 420px;
+      height: 420px;
+      left: -180px;
+      top: -180px;
+    }
+
+    .hero-shell::after {
+      width: 320px;
+      height: 320px;
+      right: -120px;
+      top: -120px;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      display: grid;
+      gap: 1rem;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    .hero-text p {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .hero-title {
+      font-family: "Sora", sans-serif;
+      font-size: clamp(2.2rem, 5.2vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+
+    .hero-highlight {
+      background: var(--lime);
+      border-radius: 999px;
+      padding: 0.04em 0.45em;
+      display: inline-block;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      margin: 50px 0;
+      justify-content: center;
+    }
+
+    .hero-gallery {
+      position: relative;
+      z-index: 1;
+      margin: 2rem auto 0;
+      max-width: 1080px;
+      display: grid;
+      grid-template-columns: 0.9fr 1fr 1.08fr 1fr 0.9fr;
+      gap: clamp(0.7rem, 1.4vw, 1.1rem);
+      align-items: end;
+    }
+
+    .hero-card {
+      border-radius: 20px;
+      overflow: hidden;
+      border: none;
+      box-shadow: none;
+      background: #6a49ff;
+      height: clamp(220px, 24vw, 320px);
+    }
+
+    .hero-card:nth-child(1),
+    .hero-card:nth-child(5) {
+      height: clamp(170px, 18vw, 250px);
+      align-self: center;
+    }
+
+    .hero-card:nth-child(2),
+    .hero-card:nth-child(4) {
+      background: #2a203e;
+      height: clamp(230px, 26vw, 340px);
+    }
+
+    .hero-card:nth-child(3) {
+      height: clamp(270px, 30vw, 390px);
+      transform: translateY(0.4rem);
+    }
+
+    .hero-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-spark {
+      position: absolute;
+      z-index: 1;
+      font-size: 2.8rem;
+      color: var(--cobalt);
+      line-height: 1;
+    }
+
+    .hero-spark.left {
+      left: 1.6rem;
+      top: 4.2rem;
+    }
+
+    .hero-spark.right {
+      right: 1.8rem;
+      top: 4.4rem;
+      color: #b899ff;
+    }
+
+    section {
+      padding: 0.9rem 0;
+      margin-bottom: 100px
+    }
+
+    main > section:not(.hero) .container {
+      position: relative;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 2rem 0;
+      overflow: hidden;
+    }
+
+    main > section:not(.hero) .container::before {
+      content: "";
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      right: -100px;
+      bottom: -120px;
+      pointer-events: none;
+    }
+
+    .classes-section .container {
+      padding-top: 1.2rem;
+      padding-bottom: 1.4rem;
+    }
+
+    .classes-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      margin-bottom: 1.4rem;
+    }
+
+    .classes-top h2 {
+      font-size: clamp(2.1rem, 4.3vw, 3.25rem);
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+
+    .classes-top p {
+      font-size: clamp(1.1rem, 1.7vw, 1.85rem);
+      line-height: 1.25;
+      max-width: 610px;
+      justify-self: end;
+      color: #5c527d;
+    }
+
+    .classes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+      margin: 50px 0;
+    }
+
+    .class-card {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid #6953d8;
+      background: transparent;
+      padding: 1rem;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 0.9rem;
+    }
+
+    .class-card .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+
+    .class-card h4 {
+      text-transform: none;
+      font-size: clamp(1.2rem, 2vw, 1.85rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .class-card p {
+      font-size: clamp(1rem, 1.4vw, 1.32rem);
+      color: #4f456f;
+      line-height: 1.3;
+    }
+
+    .card-arrow {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.6rem;
+      line-height: 1;
+      background: #6447eb;
+      color: #fff;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .class-card.featured {
+      background: #5f49e6;
+      color: #f8f8ff;
+    }
+
+    .class-card.featured h4,
+    .class-card.featured p {
+      color: #f4f5ff;
+    }
+
+    .class-card.featured .card-arrow {
+      background: var(--lime);
+      color: #1f221f;
+    }
+
+    .class-card hr {
+      border: 0;
+      border-top: 2px solid #6953d8;
+      opacity: 0.8;
+    }
+
+    .class-card.featured hr {
+      border-top-color: rgba(233, 224, 255, 0.75);
+    }
+
+    .class-card .card-media {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid #6953d8;
+      margin-top: 0.35rem;
+    }
+
+    .class-card .card-media img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 16 / 8;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .classes-quote {
+      position: relative;
+      text-align: center;
+      padding: 1.1rem 0 0.2rem;
+    }
+
+    .classes-quote h3 {
+      font-size: clamp(1.9rem, 4.1vw, 4rem);
+      font-weight: 700;
+      line-height: 1.08;
+      max-width: 980px;
+      margin: 0 auto;
+      letter-spacing: -0.02em;
+    }
+
+    .classes-quote .outline {
+      border: 2px solid #cdb6ff;
+      border-radius: 999px;
+      padding: 0.02em 0.34em;
+      display: inline-block;
+    }
+
+    .classes-quote .accent {
+      color: var(--cobalt);
+    }
+
+    .classes-quote p {
+      margin-top: 1rem;
+      font-size: clamp(1.02rem, 1.6vw, 1.55rem);
+      color: #5f557d;
+      line-height: 1.35;
+    }
+
+    .classes-quote p strong {
+      display: block;
+      color: #211a34;
+      font-weight: 700;
+    }
+
+    .classes-star {
+      position: absolute;
+      font-size: clamp(3rem, 5vw, 5rem);
+      color: var(--cobalt);
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .classes-star.left {
+      left: 1.2rem;
+      top: 0.8rem;
+    }
+
+    .classes-star.right {
+      right: 2rem;
+      bottom: -0.1rem;
+    }
+
+    .section-title {
+      text-align: center;
+      display: grid;
+      gap: 0.6rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .event-board {
+      position: relative;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      padding: 2rem 0 1.8rem;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .event-board::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.38);
+      left: -120px;
+      bottom: -110px;
+    }
+
+    .event-header {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      align-items: end;
+    }
+
+    .event-header h2 {
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      text-transform: uppercase;
+      line-height: 1.05;
+    }
+
+    .event-cards {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .event-card {
+      border: 2px solid #5e48df;
+      border-radius: 18px;
+      background: transparent;
+      padding: 1rem;
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .event-card p {
+      color: #594e75;
+    }
+
+    .event-card.featured {
+      background: var(--cobalt);
+      color: #f7f6f3;
+    }
+
+    .event-card.featured p,
+    .event-card.featured .section-tag {
+      color: #efe9ff;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
+      align-items: center;
+    }
+
+    .hero-media {
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: none;
+      position: relative;
+      min-height: 320px;
+      border: none;
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .split-card {
+      background: transparent;
+      border-radius: 0;
+      padding: 1.5rem;
+      box-shadow: none;
+      border: none;
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .book-feature-section .container {
+      padding: 0;
+      overflow: visible;
+    }
+
+    .book-feature-section .container::before {
+      display: none;
+    }
+
+    .book-feature-shell {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      overflow: hidden;
+      padding: clamp(1rem, 2.5vw, 1.6rem);
+      background:
+        radial-gradient(circle at 82% 18%, rgba(129, 96, 255, 0.18), transparent 34%),
+        linear-gradient(145deg, #ffffff 0%, #f6f1ff 100%);
+      display: grid;
+      grid-template-columns: minmax(220px, 0.9fr) minmax(320px, 1.1fr);
+      gap: clamp(1rem, 2vw, 1.6rem);
+      align-items: stretch;
+    }
+
+    .book-cover-wrap {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      min-height: 360px;
+      border: 1px solid #c8b7fb;
+      box-shadow: 0 14px 34px rgba(90, 68, 176, 0.24);
+    }
+
+    .book-cover-wrap::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 38%;
+      background: linear-gradient(180deg, transparent 0%, rgba(22, 12, 47, 0.42) 100%);
+      pointer-events: none;
+    }
+
+    .book-cover-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .book-feature-content {
+      display: grid;
+      align-content: center;
+      gap: 0.85rem;
+      padding: clamp(0.15rem, 0.6vw, 0.35rem) clamp(0.1rem, 0.8vw, 0.4rem);
+    }
+
+    .book-feature-content h2 {
+      font-size: clamp(2rem, 3.2vw, 3.1rem);
+      text-transform: none;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .book-lede {
+      font-size: clamp(1rem, 1.25vw, 1.16rem);
+      color: #574d77;
+      max-width: 62ch;
+    }
+
+    .book-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.15rem;
+    }
+
+    .book-meta-item {
+      border: 1px solid #d8cbff;
+      border-radius: 14px;
+      padding: 0.68rem 0.75rem;
+      background: rgba(255, 255, 255, 0.7);
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .book-meta-item span {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #675e86;
+      font-weight: 700;
+    }
+
+    .book-meta-item strong {
+      font-family: "Sora", sans-serif;
+      font-size: 0.96rem;
+      line-height: 1.2;
+      color: #261d40;
+    }
+
+    .book-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .book-chip {
+      border: 1px solid #cdbbff;
+      border-radius: 999px;
+      padding: 0.32rem 0.72rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #4b3e71;
+      background: #f1e9ff;
+    }
+
+    .book-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.2rem;
+    }
+
+    .impact-section .container {
+      padding: 0;
+      overflow: visible;
+    }
+
+    .impact-section .container::before {
+      display: none;
+    }
+
+    .impact-shell {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: clamp(1.2rem, 3vw, 2.2rem);
+      background:
+        radial-gradient(circle at 18% 15%, rgba(133, 96, 255, 0.15), transparent 38%),
+        radial-gradient(circle at 88% 84%, rgba(108, 77, 255, 0.12), transparent 42%),
+        linear-gradient(150deg, #fdfbff 0%, #f4eeff 100%);
+      display: grid;
+      grid-template-columns: minmax(260px, 1.1fr) minmax(280px, 1fr);
+      gap: clamp(1rem, 2vw, 1.8rem);
+      align-items: stretch;
+    }
+
+    .impact-copy {
+      display: grid;
+      gap: 0.85rem;
+      align-content: center;
+      max-width: 700px;
+    }
+
+    .impact-copy h2 {
+      font-size: clamp(1.8rem, 3.2vw, 3rem);
+      letter-spacing: -0.03em;
+      text-transform: none;
+      line-height: 1.08;
+    }
+
+    .impact-copy p {
+      font-size: clamp(1rem, 1.35vw, 1.15rem);
+      max-width: 58ch;
+      color: #564d73;
+    }
+
+    .impact-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .impact-stat {
+      border: 1px solid #c9b7ff;
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 18px;
+      padding: 1rem;
+      min-height: 144px;
+      display: grid;
+      align-content: start;
+      gap: 0.35rem;
+      backdrop-filter: blur(3px);
+    }
+
+    .impact-stat.featured {
+      background: linear-gradient(150deg, #6b4cff 0%, #7f63ff 100%);
+      border-color: transparent;
+      color: #f9f7ff;
+      box-shadow: 0 10px 24px rgba(86, 58, 186, 0.25);
+    }
+
+    .impact-stat.featured .stat-kicker,
+    .impact-stat.featured .stat-note {
+      color: #ece6ff;
+    }
+
+    .stat-kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #5f557d;
+    }
+
+    .stat-value {
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.5rem, 2vw, 2rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: inherit;
+    }
+
+    .stat-note {
+      font-size: 0.88rem;
+      color: #645a83;
+      line-height: 1.35;
+    }
+
+    .pill {
+      display: inline-flex;
+      background: #eee6ff;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: #312850;
+      font-weight: 600;
+    }
+
+    .newsletter {
+      background: transparent;
+      border: none;
+      padding: 0.9rem 0;
+    }
+
+    footer .newsletter {
+      padding: 0;
+      background: transparent;
+      border: none;
+    }
+
+    .newsletter-inner {
+      display: grid;
+      gap: 1rem;
+      align-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .newsletter form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .newsletter input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.7rem 1rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--line-dark);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .playlist {
+      background: transparent;
+      color: var(--ink);
+      border-radius: 0;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      min-height: 240px;
+      border: none;
+    }
+
+    .playlist img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .playlist-content {
+      padding: 2.2rem;
+      display: grid;
+      gap: 1rem;
+      align-content: center;
+    }
+
+    .playlist .section-tag { color: #6c638b; }
+    .playlist h2 { color: var(--ink); }
+    .playlist p { color: var(--muted); }
+    .playlist .btn-secondary { background: #fff; }
+
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .story-card {
+      background: transparent;
+      border-radius: 0;
+      padding: 1.4rem;
+      border: none;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .story-card img {
+      border-radius: 12px;
+      margin-bottom: 0.9rem;
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.6rem;
+      text-align: center;
+    }
+
+    .shop-item {
+      background: transparent;
+      border-radius: 0;
+      padding: 1.4rem;
+      border: none;
+      box-shadow: none;
+    }
+
+    .quote {
+      text-align: center;
+      padding: 1rem 0;
+      border: none;
+      background: transparent;
+    }
+
+    footer {
+      color: var(--ink);
+      padding: 1rem 0 2rem;
+    }
+
+    footer .container {
+      border-top: 1px solid var(--line);
+      padding-top: 1.6rem;
+    }
+
+    footer p { color: var(--muted); }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 1.4rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--line);
+    }
+
+    main > section .container,
+    .hero-shell {
+      animation: rise 0.56s ease both;
+    }
+
+    main > section:nth-of-type(2) .container { animation-delay: 0.05s; }
+    main > section:nth-of-type(3) .container { animation-delay: 0.1s; }
+    main > section:nth-of-type(4) .container { animation-delay: 0.15s; }
+    main > section:nth-of-type(5) .container { animation-delay: 0.2s; }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hero-shell { padding: 1.8rem 1.1rem 1.5rem; }
+      .hero-spark { display: none; }
+      .hero-gallery {
+        grid-template-columns: repeat(2, minmax(130px, 1fr));
+        max-width: 520px;
+      }
+      .hero-card,
+      .hero-card:nth-child(1),
+      .hero-card:nth-child(2),
+      .hero-card:nth-child(4),
+      .hero-card:nth-child(5) {
+        height: clamp(165px, 30vw, 230px);
+        align-self: stretch;
+      }
+      .hero-card:nth-child(3) {
+        grid-column: span 2;
+        height: clamp(220px, 42vw, 300px);
+        transform: none;
+      }
+      .btn { font-size: 0.85rem; }
+      main > section:not(.hero) .container {
+        padding: 1.4rem 1.1rem;
+      }
+
+      .classes-top {
+        grid-template-columns: 1fr;
+      }
+
+      .classes-top p {
+        justify-self: start;
+      }
+
+      .classes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .classes-star {
+        display: none;
+      }
+
+      .impact-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .impact-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .book-feature-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .book-cover-wrap {
+        min-height: 300px;
+      }
+
+      .book-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .impact-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .book-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 0.7rem 0; }
+      .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .hero-actions { flex-direction: column; align-items: stretch; width: 100%; }
+      .playlist { grid-template-columns: 1fr; }
+      .hero-actions .btn,
+      .newsletter .btn { width: 100%; }
+      .book-actions .btn { width: 100%; }
+      .nav { gap: 0.8rem; }
+      .logo-mark img { width: 132px; }
+      .hero-gallery {
+        grid-template-columns: 1fr 1fr;
+      }
+      .hero-card:last-child {
+        grid-column: auto;
+      }
+      .classes-quote h3 {
+        font-size: clamp(1.65rem, 9vw, 2.35rem);
+      }
+      .footer-grid {
+        gap: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <div class="logo-mark">
+          <img src="logo.png" alt="Spotlight Surge logo" />
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#books">Books</a>
+        <a href="#authors">Authors</a>
+        <a href="#events">Events</a>
+        <a href="#community">Community</a>
+      </nav>
+      <a class="btn btn-secondary" href="#community">Join Now</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-shell">
+        <span class="hero-spark left">✷</span>
+        <span class="hero-spark right">✦</span>
+        <div class="hero-text">
+          <span class="section-tag">Literary Platform</span>
+          <h1 class="hero-title">Where Stories <span class="hero-highlight">Come</span> Alive</h1>
+          <p>Discover, celebrate, and promote the authors and books that move you. A platform where literary journeys unfold and creative voices rise.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#books">Explore Books</a>
+            <a class="btn btn-secondary" href="#authors">For Authors</a>
+          </div>
+        </div>
+        <div class="hero-gallery">
+          <div class="hero-card">
+            <img src="https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&w=700&q=80" alt="Books and coffee" />
+          </div>
+          <div class="hero-card">
+            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=700&q=80" alt="Writing desk" />
+          </div>
+          <div class="hero-card">
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=700&q=80" alt="Readers enjoying a book club" />
+          </div>
+          <div class="hero-card">
+            <img src="https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=700&q=80" alt="Open journal and pencil" />
+          </div>
+          <div class="hero-card">
+            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=700&q=80" alt="Book cover details" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="classes-section">
+      <div class="container">
+        <div class="classes-top">
+          <h2>Author Spotlight Event</h2>
+          <p>Join us for an intimate conversation with [Author Name] as we explore their latest book and the stories that inspire their writing.</p>
+        </div>
+
+        <div class="classes-grid">
+          <article class="class-card">
+            <div class="card-top">
+              <h4>Date</h4>
+              <span class="card-arrow">↗</span>
+            </div>
+            <hr />
+            <p>Date: [Event Date]</p>
+            <p>Join us for an intimate conversation with [Author Name] as we explore their latest book and the stories that inspire their writing.</p>
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=80" alt="Writing desk and notes" />
+            </div>
+          </article>
+          <article class="class-card featured">
+            <div class="card-top">
+              <h4>Time</h4>
+              <span class="card-arrow">↗</span>
+            </div>
+            <hr />
+            <p>Time: [Event Time]</p>
+            <p>Join us for an intimate conversation with [Author Name] as we explore their latest book and the stories that inspire their writing.</p>
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80" alt="Open books and notes" />
+            </div>
+          </article>
+          <article class="class-card">
+            <div class="card-top">
+              <h4>Host</h4>
+              <span class="card-arrow">↗</span>
+            </div>
+            <hr />
+            <p>Host: [Host Name]</p>
+            <a class="btn btn-primary" href="#events">Register Now</a>
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=900&q=80" alt="Bookshelf and reading space" />
+            </div>
+          </article>
+        </div>
+
+        <div class="classes-quote">
+          <span class="classes-star left">✷</span>
+          <h3>SUPPORTING <span class="outline">AUTHORS</span>.<br />ENRICHING <span class="accent">READERS.</span></h3>
+          <p>Spotlight Surge<br /><strong>Empowering authors, celebrating stories, and building a community of passionate readers.</strong></p>
+          <span class="classes-star right">✷</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="impact-section">
+      <div class="container impact-shell">
+        <div class="impact-copy">
+          <span class="section-tag">Our Impact in the Literary World</span>
+          <h2>We’re dedicated to amplifying the voices of authors and enriching readers’ lives.</h2>
+          <p>From debut launches to packed reading circles, Spotlight Surge helps great stories travel farther and connect with the audiences they deserve.</p>
+        </div>
+        <div class="impact-stats">
+          <article class="impact-stat featured">
+            <p class="stat-kicker">Books Featured</p>
+            <p class="stat-value">15K+</p>
+            <p class="stat-note">Carefully curated titles showcased across our platform each year.</p>
+          </article>
+          <article class="impact-stat">
+            <p class="stat-kicker">Authors Spotlighted</p>
+            <p class="stat-value">2.5K+</p>
+            <p class="stat-note">Emerging and established writers introduced to new readers.</p>
+          </article>
+          <article class="impact-stat">
+            <p class="stat-kicker">Literary Events</p>
+            <p class="stat-value">1.5K+</p>
+            <p class="stat-note">Launches, live sessions, and workshops hosted with partner communities.</p>
+          </article>
+          <article class="impact-stat">
+            <p class="stat-kicker">Readers Reached</p>
+            <p class="stat-value">300K+</p>
+            <p class="stat-note">Monthly readers engaging with recommendations, interviews, and reviews.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="books" class="book-feature-section">
+      <div class="container">
+        <div class="book-feature-shell">
+          <div class="book-cover-wrap">
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80" alt="Featured book" />
+          </div>
+          <div class="book-feature-content">
+            <span class="section-tag">Featured Book of the Month</span>
+            <h2>The Midnight Library</h2>
+            <p class="book-lede">Dive into the world of “The Midnight Library” by Matt Haig, a moving exploration of regret, possibility, and what makes a life meaningful.</p>
+            <div class="book-meta">
+              <article class="book-meta-item">
+                <span>Author</span>
+                <strong>Matt Haig</strong>
+              </article>
+              <article class="book-meta-item">
+                <span>Genre</span>
+                <strong>Contemporary Fiction</strong>
+              </article>
+              <article class="book-meta-item">
+                <span>Reader Rating</span>
+                <strong>4.8 / 5</strong>
+              </article>
+            </div>
+            <div class="book-chips">
+              <span class="book-chip">Best Seller Pick</span>
+              <span class="book-chip">Book Club Favorite</span>
+              <span class="book-chip">Available in Audio</span>
+            </div>
+            <div class="book-actions">
+              <a class="btn btn-primary" href="#books">Read More</a>
+              <a class="btn btn-secondary" href="#books">Buy the Book</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <div>
+          <span class="section-tag">The Countdown Begins!</span>
+          <h2>Get ready for the book launch of [Author Name]’s new bestseller.</h2>
+          <p>We’re counting down the days until you can get your hands on this exciting new read.</p>
+          <p><strong>Countdown Timer:</strong> [Countdown]</p>
+        </div>
+        <div class="split-card">
+          <h3>Join the launch event</h3>
+          <p>Reserve your seat for the virtual celebration and live Q&amp;A.</p>
+          <a class="btn btn-primary" href="#events">Join the Launch Event</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="newsletter">
+      <div class="container newsletter-inner">
+        <div>
+          <span class="section-tag">Silent Book Club Delivered</span>
+          <h2>Get monthly spotlights, private invites, and author gifts.</h2>
+        </div>
+        <form>
+          <input type="email" placeholder="Email address" />
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <section>
+      <div class="container playlist">
+        <img src="https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?auto=format&fit=crop&w=1200&q=80" alt="Vinyl and headphones" />
+        <div class="playlist-content">
+          <span class="section-tag">Listen in</span>
+          <h2>Spotlight Surge playlists</h2>
+          <p>Curated soundtracks for writing sprints, reading marathons, and café slow mornings.</p>
+          <a class="btn btn-secondary" href="#community">Listen now</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="events">
+      <div class="container">
+        <div class="section-title">
+          <span class="section-tag">Don’t Miss These Upcoming Literary Events</span>
+          <h2>Be part of the action with launches, live author sessions, and more.</h2>
+        </div>
+        <div class="stories-grid">
+          <div class="story-card">
+            <h3>Event 1: [Event Title]</h3>
+            <p>Date: [Event Date]</p>
+            <p>From book launches to live author sessions, explore what’s next.</p>
+            <a class="btn btn-secondary" href="#">View Event Details</a>
+          </div>
+          <div class="story-card">
+            <h3>Event 2: [Event Title]</h3>
+            <p>Date: [Event Date]</p>
+            <p>Connect with your favorite writers and fellow readers.</p>
+            <a class="btn btn-secondary" href="#">View Event Details</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="authors">
+      <div class="container">
+        <div class="section-title">
+          <span class="section-tag">Award-Winning Books You Can’t Miss</span>
+          <h2>Explore the finest in literature, handpicked for their exceptional storytelling.</h2>
+        </div>
+        <div class="stories-grid">
+          <div class="story-card">
+            <h3>Book 1: [Title]</h3>
+            <p>Exceptional storytelling and lasting impact.</p>
+            <a class="btn btn-secondary" href="#">Discover More Books</a>
+          </div>
+          <div class="story-card">
+            <h3>Book 2: [Title]</h3>
+            <p>Remarkable writing that stays with readers worldwide.</p>
+            <a class="btn btn-secondary" href="#">Discover More Books</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <span class="section-tag">Relive the Magic of Past Events</span>
+          <h2>From intimate author talks to grand launches, revisit the moments.</h2>
+        </div>
+        <div class="stories-grid">
+          <div class="story-card">
+            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80" alt="Past event 1" />
+            <p>[Image from Past Event 1]</p>
+          </div>
+          <div class="story-card">
+            <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80" alt="Past event 2" />
+            <p>[Image from Past Event 2]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <span class="section-tag">Supporting Authors, Enriching Readers</span>
+          <h2>Whether you're promoting a book or discovering new voices, we’re here for you.</h2>
+        </div>
+        <div class="stories-grid">
+          <div class="story-card">
+            <h3>Book Promotion</h3>
+            <p>Reach your audience through strategic marketing and promotions.</p>
+          </div>
+          <div class="story-card">
+            <h3>Author Interviews</h3>
+            <p>Get in-depth with the minds behind the books.</p>
+          </div>
+          <div class="story-card">
+            <h3>Literary Events</h3>
+            <p>Connect with the literary world through engaging events.</p>
+          </div>
+          <div class="story-card">
+            <h3>Reader Community</h3>
+            <p>Be part of a vibrant, growing community.</p>
+          </div>
+          <div class="story-card">
+            <h3>Editorial Reviews</h3>
+            <p>Gain insights and reviews that highlight your book’s best qualities.</p>
+          </div>
+          <div class="story-card">
+            <h3>Marketing Support</h3>
+            <p>Let us help you amplify your book’s message.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote">
+      <div class="container">
+        <p class="section-tag">Begin Your Literary Journey Today</p>
+        <h2>Whether you're an author ready to promote your book or a reader looking for the next great story, we’re here to help.</h2>
+        <a class="btn btn-primary mt-12" href="#community">Join Now</a>
+      </div>
+    </section>
+
+    <section id="community">
+      <div class="container split">
+        <div>
+          <span class="section-tag">About Spotlight Surge</span>
+          <h2>Supporting authors. Enriching readers.</h2>
+          <p>We empower authors, celebrate stories, and build a community of passionate readers who champion great books.</p>
+        </div>
+        <div class="split-card">
+          <h3>Join the community</h3>
+          <p>Stay updated with the latest book launches and events.</p>
+          <div class="hero-actions mt-1">
+            <a class="btn btn-primary" href="#">Join Now</a>
+            <a class="btn btn-secondary" href="#">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="logo">
+        <div class="logo-mark">
+          <img src="logo.png" alt="Spotlight Surge logo" />
+        </div>
+        Spotlight Surge
+      </div>
+      <p>Spotlight Surge - Empowering authors, celebrating stories, and building a community of passionate readers.</p>
+      <div class="footer-grid">
+        <div>
+          <h4>Quick Links</h4>
+          <p><a href="#">Home</a></p>
+          <p><a href="#community">About Us</a></p>
+          <p><a href="#">Contact</a></p>
+          <p><a href="#events">Events</a></p>
+        </div>
+        <div>
+          <h4>Programs</h4>
+          <p>Author Residencies</p>
+          <p>Launch Support</p>
+          <p>Reader Circles</p>
+        </div>
+        <div>
+          <h4>Newsletter</h4>
+          <p>Stay updated with the latest book launches and events.</p>
+          <form class="newsletter">
+            <input type="email" placeholder="Email address" />
+            <button class="btn btn-primary" type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
