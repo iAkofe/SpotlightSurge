@@ -1,0 +1,111 @@
+.impact-section .container {
+  padding: 0;
+  overflow: visible;
+}
+
+.impact-section .container::before {
+  display: none;
+}
+
+.impact-shell {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: clamp(1.2rem, 3vw, 2.2rem);
+  background:
+    radial-gradient(circle at 18% 15%, rgba(133, 96, 255, 0.15), transparent 38%),
+    radial-gradient(circle at 88% 84%, rgba(108, 77, 255, 0.12), transparent 42%),
+    linear-gradient(150deg, #fdfbff 0%, #f4eeff 100%);
+  display: grid;
+  grid-template-columns: minmax(260px, 1.1fr) minmax(280px, 1fr);
+  gap: clamp(1rem, 2vw, 1.8rem);
+  align-items: stretch;
+}
+
+.impact-copy {
+  display: grid;
+  gap: 0.85rem;
+  align-content: center;
+  max-width: 700px;
+}
+
+.impact-copy h2 {
+  font-size: clamp(1.8rem, 3.2vw, 3rem);
+  letter-spacing: -0.03em;
+  text-transform: none;
+  line-height: 1.08;
+}
+
+.impact-copy p {
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  max-width: 58ch;
+  color: #564d73;
+}
+
+.impact-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.impact-stat {
+  border: 1px solid #c9b7ff;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 18px;
+  padding: 1rem;
+  min-height: 144px;
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  backdrop-filter: blur(3px);
+}
+
+.impact-stat.featured {
+  background: linear-gradient(150deg, #6b4cff 0%, #7f63ff 100%);
+  border-color: transparent;
+  color: #f9f7ff;
+  box-shadow: 0 10px 24px rgba(86, 58, 186, 0.25);
+}
+
+.impact-stat.featured .stat-kicker,
+.impact-stat.featured .stat-note {
+  color: #ece6ff;
+}
+
+.stat-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #5f557d;
+}
+
+.stat-value {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+.stat-note {
+  font-size: 0.88rem;
+  color: #645a83;
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .impact-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .impact-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .impact-stats {
+    grid-template-columns: 1fr;
+  }
+}

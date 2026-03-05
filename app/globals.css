@@ -616,9 +616,7 @@
       border-radius: 30px;
       overflow: hidden;
       padding: clamp(1rem, 2.5vw, 1.6rem);
-      background:
-        radial-gradient(circle at 82% 18%, rgba(129, 96, 255, 0.18), transparent 34%),
-        linear-gradient(145deg, #ffffff 0%, #f6f1ff 100%);
+      background: #f6f1ff;
       display: grid;
       grid-template-columns: minmax(220px, 0.9fr) minmax(320px, 1.1fr);
       gap: clamp(1rem, 2vw, 1.6rem);

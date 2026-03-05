@@ -46,7 +46,6 @@ export default function AuthorSpotlightSection() {
             >
               <div className="card-top">
                 <h4>{card.title}</h4>
-                <span className="card-arrow">↗</span>
               </div>
               <hr />
               <p>{card.detail}</p>

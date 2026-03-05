@@ -1,0 +1,51 @@
+.memories-section .container {
+  padding: 0;
+  overflow: visible;
+}
+
+.memories-section .container::before {
+  display: none;
+}
+
+.memories-shell {
+  display: grid;
+  gap: 1rem;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.memory-card {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #cdbbff;
+  background: #fff;
+  display: grid;
+}
+
+.memory-card img {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+}
+
+.memory-card p {
+  padding: 0.74rem 0.8rem 0.88rem;
+  color: #564b78;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .memory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .memory-grid {
+    grid-template-columns: 1fr;
+  }
+}

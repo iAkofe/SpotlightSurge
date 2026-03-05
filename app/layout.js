@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../styles.css";
 
 export const metadata = {
   title: "Spotlight Surge | Where Stories Come Alive",
@@ -7,8 +7,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body>{children}</body>
     </html>
   );
 }
