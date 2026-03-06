@@ -41,6 +41,7 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   padding: 0 4vw;
+  overflow-x: hidden;
 }
 
 img {
@@ -154,7 +155,7 @@ p {
 
 section {
   padding: 0.9rem 0;
-  margin-bottom: 100px;
+  margin-bottom: clamp(3rem, 7vw, 6.25rem);
 }
 
 main > section:not(.hero) .container {
@@ -234,6 +235,25 @@ main > section:nth-of-type(5) .container {
 
   main > section:not(.hero) .container {
     padding: 1.4rem 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0 2.2vw;
+  }
+
+  section {
+    margin-bottom: clamp(2.2rem, 5vw, 3rem);
+  }
+
+  .section-title {
+    margin-bottom: 1.15rem;
+  }
+
+  .section-shell {
+    border-radius: 20px;
+    padding: 1rem;
   }
 }
 

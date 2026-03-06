@@ -1,6 +1,19 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import {
+  FaApple,
+  FaChevronLeft,
+  FaCircle,
+  FaFacebookF,
+  FaGoogle,
+  FaLocationDot,
+  FaRegEye,
+  FaRegEyeSlash
+} from "react-icons/fa6";
+import { BsStars } from "react-icons/bs";
+import { HiMiniSquares2X2 } from "react-icons/hi2";
+import { IoCarSportOutline } from "react-icons/io5";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
@@ -10,14 +23,14 @@ export default function AuthPage() {
     name: "",
     email: "",
     password: "",
-    accountType: "reader",
-    bio: "",
-    website: ""
+    accountType: "reader"
   });
   const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
   const [upgrade, setUpgrade] = useState({ bio: "", website: "" });
   const [agreeTerms, setAgreeTerms] = useState(true);
+  const [rememberMe, setRememberMe] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState({ type: "", message: "" });
   const [loading, setLoading] = useState(false);
 
@@ -27,26 +40,30 @@ export default function AuthPage() {
   const authHeaders = useMemo(() => ({ Authorization: `Bearer ${token}` }), [token]);
 
   useEffect(() => {
-    const savedToken = window.localStorage.getItem("ss_access_token") || "";
-    if (savedToken) {
-      setToken(savedToken);
-    }
+    try {
+      const savedToken = window.localStorage.getItem("ss_access_token") || "";
+      if (savedToken) {
+        setToken(savedToken);
+      }
 
-    const params = new URLSearchParams(window.location.search);
-    const socialToken = params.get("accessToken");
-    const socialError = params.get("error");
+      const params = new URLSearchParams(window.location.search);
+      const socialToken = params.get("accessToken");
+      const socialError = params.get("error");
 
-    if (socialToken) {
-      window.localStorage.setItem("ss_access_token", socialToken);
-      setToken(socialToken);
-      setStatus({ type: "success", message: "Social login successful." });
-      window.history.replaceState({}, "", "/auth");
-      return;
-    }
+      if (socialToken) {
+        window.localStorage.setItem("ss_access_token", socialToken);
+        setToken(socialToken);
+        setStatus({ type: "success", message: "Social login successful." });
+        window.history.replaceState({}, "", "/auth");
+        return;
+      }
 
-    if (socialError) {
-      setStatus({ type: "error", message: socialError });
-      window.history.replaceState({}, "", "/auth");
+      if (socialError) {
+        setStatus({ type: "error", message: socialError });
+        window.history.replaceState({}, "", "/auth");
+      }
+    } catch {
+      setStatus({ type: "error", message: "Unable to access browser storage for session state." });
     }
   }, []);
 
@@ -107,9 +124,7 @@ export default function AuthPage() {
               name: form.name,
               email: form.email,
               password: form.password,
-              accountType: form.accountType,
-              bio: form.accountType === "author" ? form.bio : "",
-              website: form.accountType === "author" ? form.website : ""
+              accountType: form.accountType
             }
           : {
               email: form.email,
@@ -197,101 +212,176 @@ export default function AuthPage() {
     <main className="auth-page-main">
       <section className="auth-page-shell" aria-label="Authentication">
         <aside className="auth-page-visual">
+          <div className="auth-visual-chip auth-visual-chip-top">
+            <FaLocationDot aria-hidden="true" />
+            <span>Pacific Rim National Park Reserve</span>
+          </div>
+          <div className="auth-visual-card">
+            <p>Featured Story</p>
+            <strong>Road Through the Forest</strong>
+            <small><IoCarSportOutline aria-hidden="true" /> 2001 Ford Econoline 150</small>
+          </div>
           <img
             src="https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?auto=format&fit=crop&w=1400&q=80"
             alt="Abstract immersive visual"
           />
+          <div className="auth-visual-copy">
+            <h2>Your next reading adventure starts here.</h2>
+            <p>Discover standout authors, memorable books, and experiences curated for you.</p>
+            <div className="auth-visual-tags">
+              <span><FaCircle className="dot dot-red" aria-hidden="true" /> Destinations</span>
+              <span><FaCircle className="dot dot-yellow" aria-hidden="true" /> Authors</span>
+              <span><FaCircle className="dot dot-blue" aria-hidden="true" /> Books</span>
+              <span><FaCircle className="dot dot-green" aria-hidden="true" /> Events</span>
+            </div>
+          </div>
         </aside>
 
         <div className="auth-page-panel">
-          <a className="auth-back" href="/">← Back to home</a>
-          <h1>{mode === "signup" ? "Create an Account" : "Login"}</h1>
-
-          {!user ? (
-            <p className="auth-subline">
-              {mode === "signup" ? "Already have an account?" : "New here?"}{" "}
-              <button
-                type="button"
-                className="auth-inline-switch"
-                onClick={() => setMode(mode === "signup" ? "login" : "signup")}
-              >
-                {mode === "signup" ? "Log in" : "Create one"}
-              </button>
-            </p>
-          ) : (
-            <div className="auth-user-inline">
-              <p>
-                Signed in as <strong>{user.name}</strong> ({user.role})
-              </p>
-              <button className="btn btn-secondary" type="button" onClick={onLogout}>
-                Logout
-              </button>
+          <div className="auth-panel-top">
+            <div className="auth-top-left">
+              <a className="auth-icon-btn" href="/" aria-label="Back to home">
+                <FaChevronLeft aria-hidden="true" />
+              </a>
+              <span className="auth-menu-pill">
+                <HiMiniSquares2X2 aria-hidden="true" />
+                <span>Menu</span>
+              </span>
             </div>
-          )}
+            <span className="auth-location-pill">
+              <FaLocationDot aria-hidden="true" />
+              <span>Canada 🇨🇦</span>
+            </span>
+          </div>
 
           {!user ? (
-            <form className="auth-page-form" onSubmit={onSubmit}>
-              {mode === "signup" ? (
-                <label>
-                  Full Name
-                  <input name="name" value={form.name} onChange={onChange} required />
-                </label>
-              ) : null}
+            <>
+              <div className="auth-intro">
+                <div className="auth-mark">
+                  <BsStars aria-hidden="true" />
+                </div>
+                <h1>Join Spotlight Surge</h1>
+                <p>This is the start of something good.</p>
+              </div>
 
-              <label>
-                Email Address
-                <input name="email" type="email" value={form.email} onChange={onChange} required />
-              </label>
+              <div className="auth-segmented" role="tablist" aria-label="Auth mode">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={mode === "signup"}
+                  className={mode === "signup" ? "active" : ""}
+                  onClick={() => setMode("signup")}
+                >
+                  Register
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={mode === "login"}
+                  className={mode === "login" ? "active" : ""}
+                  onClick={() => setMode("login")}
+                >
+                  Login
+                </button>
+              </div>
 
-              <label>
-                Password
-                <input
-                  name="password"
-                  type="password"
-                  value={form.password}
-                  onChange={onChange}
-                  required
-                />
-              </label>
+              <div className="auth-socials auth-socials-round">
+                <button className="auth-social-circle" type="button" onClick={() => startSocial("facebook")}>
+                  <FaFacebookF aria-hidden="true" />
+                </button>
+                <button className="auth-social-circle" type="button" disabled aria-label="Apple sign in coming soon">
+                  <FaApple aria-hidden="true" />
+                </button>
+                <button className="auth-social-circle" type="button" onClick={() => startSocial("google")}>
+                  <FaGoogle aria-hidden="true" />
+                </button>
+              </div>
 
-              {mode === "signup" ? (
-                <>
+              <div className="auth-divider"><span>or</span></div>
+
+              <form className="auth-page-form" onSubmit={onSubmit}>
+                {mode === "signup" ? (
                   <label>
-                    Account Type
-                    <select name="accountType" value={form.accountType} onChange={onChange}>
-                      <option value="reader">Reader</option>
-                      <option value="author">Author</option>
-                    </select>
+                    Full Name
+                    <input name="name" value={form.name} onChange={onChange} required />
                   </label>
+                ) : null}
 
-                  {form.accountType === "author" ? (
-                    <>
-                      <label>
-                        Author Bio
-                        <textarea name="bio" value={form.bio} onChange={onChange} />
-                      </label>
-                      <label>
-                        Website
-                        <input name="website" value={form.website} onChange={onChange} />
-                      </label>
-                    </>
-                  ) : null}
+                <label>
+                  Email Address
+                  <input name="email" type="email" value={form.email} onChange={onChange} required />
+                </label>
 
+                <label>
+                  Password
+                  <div className="auth-password-wrap">
+                    <input
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={form.password}
+                      onChange={onChange}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="auth-eye"
+                      onClick={() => setShowPassword((current) => !current)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? <FaRegEyeSlash aria-hidden="true" /> : <FaRegEye aria-hidden="true" />}
+                    </button>
+                  </div>
+                </label>
+
+                {mode === "signup" ? (
+                  <>
+                    <div className="auth-account-picker" role="group" aria-label="Account Type">
+                      <span className="auth-picker-label">Account Type</span>
+                      <div className="auth-picker-options">
+                        <button
+                          type="button"
+                          className={form.accountType === "reader" ? "active" : ""}
+                          onClick={() => setForm((current) => ({ ...current, accountType: "reader" }))}
+                        >
+                          Reader
+                          <small>Discover and follow authors</small>
+                        </button>
+                        <button
+                          type="button"
+                          className={form.accountType === "author" ? "active" : ""}
+                          onClick={() => setForm((current) => ({ ...current, accountType: "author" }))}
+                        >
+                          Author
+                          <small>Share books and grow audience</small>
+                        </button>
+                      </div>
+                    </div>
+
+                    <label className="auth-terms">
+                      <input
+                        type="checkbox"
+                        checked={agreeTerms}
+                        onChange={(event) => setAgreeTerms(event.target.checked)}
+                      />
+                      <span>I agree to the Terms & Conditions</span>
+                    </label>
+                  </>
+                ) : (
                   <label className="auth-terms">
                     <input
                       type="checkbox"
-                      checked={agreeTerms}
-                      onChange={(event) => setAgreeTerms(event.target.checked)}
+                      checked={rememberMe}
+                      onChange={(event) => setRememberMe(event.target.checked)}
                     />
-                    <span>I agree to the Terms & Conditions</span>
+                    <span>Remember me</span>
                   </label>
-                </>
-              ) : null}
+                )}
 
-              <button className="btn btn-primary auth-submit" type="submit" disabled={loading}>
-                {loading ? "Please wait..." : mode === "signup" ? "Create Account" : "Login"}
-              </button>
-            </form>
+                <button className="btn btn-primary auth-submit" type="submit" disabled={loading}>
+                  {loading ? "Please wait..." : mode === "signup" ? "Start your adventure" : "Login"}
+                </button>
+              </form>
+            </>
           ) : isReader ? (
             <form className="auth-page-form" onSubmit={onUpgrade}>
               <h2>Upgrade to Author</h2>
@@ -315,18 +405,19 @@ export default function AuthPage() {
           ) : null}
 
           {!user ? (
-            <>
-              <div className="auth-divider"><span>or</span></div>
-              <div className="auth-socials">
-                <button className="auth-social-btn" type="button" onClick={() => startSocial("google")}>
-                  Continue with Google
-                </button>
-                <button className="auth-social-btn" type="button" onClick={() => startSocial("facebook")}>
-                  Continue with Facebook
-                </button>
-              </div>
-            </>
-          ) : null}
+            <p className="auth-subline">
+              Prefer social login? Use the quick buttons above.
+            </p>
+          ) : (
+            <div className="auth-user-inline">
+              <p>
+                Signed in as <strong>{user.name}</strong> ({user.role})
+              </p>
+              <button className="btn btn-secondary" type="button" onClick={onLogout}>
+                Logout
+              </button>
+            </div>
+          )}
 
           {status.message ? (
             <p className={`auth-status ${status.type === "error" ? "error" : "success"}`}>
