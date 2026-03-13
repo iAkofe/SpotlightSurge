@@ -10,12 +10,31 @@ import {
   FaLocationDot,
   FaRegEye,
   FaRegEyeSlash
-} from "react-icons/fa6";
-import { BsStars } from "react-icons/bs";
-import { HiMiniSquares2X2 } from "react-icons/hi2";
-import { IoCarSportOutline } from "react-icons/io5";
+} from "../Icons";
+import { BsStars, HiMiniSquares2X2, IoCarSportOutline } from "../Icons";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
+function readErrorMessage(error) {
+  if (error instanceof TypeError && error.message.toLowerCase().includes("fetch")) {
+    return `Cannot reach the API at ${API_BASE}. Start the backend on port 4000 and make sure PostgreSQL is running on localhost:5432.`;
+  }
+
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+
+  return "Request failed.";
+}
+
+async function parseJson(response) {
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    return null;
+  }
+
+  return response.json();
+}
 
 export default function AuthPage() {
   const [mode, setMode] = useState("signup");
@@ -84,10 +103,10 @@ export default function AuthPage() {
           throw new Error("Session expired. Please login again.");
         }
 
-        const data = await response.json();
+        const data = await parseJson(response);
         setUser(data.user);
       } catch (error) {
-        setStatus({ type: "error", message: error.message });
+        setStatus({ type: "error", message: readErrorMessage(error) });
         setToken("");
         window.localStorage.removeItem("ss_access_token");
       }
@@ -138,21 +157,17 @@ export default function AuthPage() {
         body: JSON.stringify(payload)
       });
 
-      const data = await response.json();
+      const data = await parseJson(response);
       if (!response.ok) {
-        throw new Error(data.error || "Request failed.");
+        throw new Error(data?.error || "Request failed.");
       }
 
       setToken(data.accessToken);
       setUser(data.user);
       window.localStorage.setItem("ss_access_token", data.accessToken);
       setStatus({ type: "success", message: `Welcome, ${data.user.name}.` });
-
-      if (data.user.role === "AUTHOR" || data.user.role === "ADMIN") {
-        window.location.replace("/dashboard/author");
-      }
     } catch (error) {
-      setStatus({ type: "error", message: error.message });
+      setStatus({ type: "error", message: readErrorMessage(error) });
     } finally {
       setLoading(false);
     }
@@ -187,15 +202,15 @@ export default function AuthPage() {
         })
       });
 
-      const data = await response.json();
+      const data = await parseJson(response);
       if (!response.ok) {
-        throw new Error(data.error || "Upgrade failed.");
+        throw new Error(data?.error || "Upgrade failed.");
       }
 
       setUser(data.user);
       setStatus({ type: "success", message: data.message });
     } catch (error) {
-      setStatus({ type: "error", message: error.message });
+      setStatus({ type: "error", message: readErrorMessage(error) });
     } finally {
       setLoading(false);
     }
