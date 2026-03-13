@@ -26,3 +26,18 @@ export function publicBook(book) {
     updatedAt: book.updatedAt
   };
 }
+
+export function publicPost(post) {
+  return {
+    id: post.id,
+    authorId: post.authorId,
+    title: post.title,
+    category: post.category,
+    excerpt: post.excerpt,
+    content: post.content,
+    coverImage: post.coverImage,
+    isPublished: post.isPublished,
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt
+  };
+}

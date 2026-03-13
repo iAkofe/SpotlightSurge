@@ -11,6 +11,8 @@
 @import "./components/NewsletterSection/NewsletterSection.css";
 @import "./components/Footer/Footer.css";
 @import "./components/AuthPage/AuthPage.css";
+@import "./components/AuthorDashboard/AuthorDashboard.css";
+@import "./components/AuthorProfile/AuthorProfile.css";
 
 :root {
   --font-body: "Manrope";

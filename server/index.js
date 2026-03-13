@@ -7,7 +7,9 @@ import { prisma } from "./lib/prisma.js";
 import { httpLogger, logger } from "./lib/logger.js";
 import { errorHandler, notFoundHandler } from "./middleware/errors.js";
 import authRoutes from "./routes/auth.js";
+import authorRoutes from "./routes/authors.js";
 import bookRoutes from "./routes/books.js";
+import postRoutes from "./routes/posts.js";
 import { configureOAuth } from "./services/oauth.service.js";
 
 const app = express();
@@ -32,7 +34,9 @@ app.get("/api/health", async (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/authors", authorRoutes);
 app.use("/api/books", bookRoutes);
+app.use("/api/posts", postRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

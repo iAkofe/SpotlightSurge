@@ -147,12 +147,26 @@ export default function AuthPage() {
       setUser(data.user);
       window.localStorage.setItem("ss_access_token", data.accessToken);
       setStatus({ type: "success", message: `Welcome, ${data.user.name}.` });
+
+      if (data.user.role === "AUTHOR" || data.user.role === "ADMIN") {
+        window.location.replace("/dashboard/author");
+      }
     } catch (error) {
       setStatus({ type: "error", message: error.message });
     } finally {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    if (user.role === "AUTHOR" || user.role === "ADMIN") {
+      window.location.replace("/dashboard/author");
+    }
+  }, [user]);
 
   async function onUpgrade(event) {
     event.preventDefault();

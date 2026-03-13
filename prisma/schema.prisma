@@ -28,6 +28,7 @@ model User {
   website         String         @default("")
   profileImageUrl String         @default("")
   books           Book[]
+  posts           Post[]
   refreshTokens   RefreshToken[]
   oauthAccounts   OAuthAccount[]
   createdAt       DateTime       @default(now())
@@ -58,6 +59,22 @@ model Book {
   coverImageUrl String   @default("")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@index([authorId, createdAt])
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  title       String
+  category    String   @default("")
+  excerpt     String   @default("")
+  content     String
+  coverImage  String   @default("")
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([authorId, createdAt])
 }
