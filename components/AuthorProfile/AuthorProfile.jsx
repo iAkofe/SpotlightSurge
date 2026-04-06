@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  FiEdit2,
-  FiMenu,
-  FiPlus,
-  FiSearch,
-  FiTrendingUp
+  FiBookOpen,
+  FiEdit3,
+  FiGlobe,
+  FiMapPin,
+  FiMessageCircle
 } from "../Icons";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
@@ -21,6 +21,15 @@ function formatDate(value) {
   } catch {
     return "";
   }
+}
+
+function getInitials(name) {
+  return (name || "AD")
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
 }
 
 export default function AuthorProfile({ authorId }) {
@@ -49,203 +58,107 @@ export default function AuthorProfile({ authorId }) {
     load();
   }, [authorId]);
 
-  const cardPool = useMemo(() => {
-    if (!data) {
-      return [];
-    }
-
-    const postCards = (data.posts || []).map((post) => ({
-      id: post.id,
-      title: post.title,
-      category: post.category || "#Featured",
-      date: formatDate(post.createdAt),
-      body: post.excerpt || post.content?.slice(0, 110) || "",
-      image: post.coverImage || ""
-    }));
-
-    const bookCards = (data.books || []).map((book) => ({
-      id: `book-${book.id}`,
-      title: book.title,
-      category: `#${book.genre || "Book"}`,
-      date: formatDate(book.createdAt),
-      body: book.description || "Newly added title by this author.",
-      image: book.coverImageUrl || ""
-    }));
-
-    return [...postCards, ...bookCards].slice(0, 4);
-  }, [data]);
-
   if (loading) {
-    return <main className="author-profile-page"><p>Loading author profile...</p></main>;
+    return <main className="author-profile-page"><p className="dashboard-loading">Loading author profile...</p></main>;
   }
 
   if (error) {
-    return <main className="author-profile-page"><p>{error}</p></main>;
+    return <main className="author-profile-page"><p className="dashboard-loading">{error}</p></main>;
   }
 
   const { author, books, posts, stats } = data;
-  const followerCount = Math.max(26, stats.posts * 4 + stats.books * 3 + 14);
-  const followingCount = Math.max(12, Math.floor(followerCount / 4));
-  const readCount = Math.max(12, Math.round(stats.posts * 1.35));
-  const savedCount = Math.max(18, Math.round(stats.posts * 1.6 + stats.books));
 
   return (
     <main className="author-profile-page">
-      <section className="author-profile-frame">
-        <header className="profile-topbar">
-          <div className="top-brand">
-            <img src="/logo.png" alt="Spotlight Surge" />
-          </div>
-          <button className="top-profile" type="button">My Profile <FiMenu /></button>
-          <button className="top-write" type="button"><FiPlus /> Write</button>
+      <section className="author-profile-shell">
+        <header className="author-profile-topbar">
+          <a className="author-profile-brand" href="/">
+            <span className="dashboard-brand-mark">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="4" width="16" height="16" rx="4" />
+                <path d="M8 8.5h3.8c1.1 0 2 .9 2 2V16H10c-1.1 0-2-.9-2-2V8.5Z" />
+                <path d="M16 8.5h-3.8c-1.1 0-2 .9-2 2V16H14c1.1 0 2-.9 2-2V8.5Z" />
+              </svg>
+            </span>
+            <span>SpotlightSurge</span>
+          </a>
+          <a className="author-profile-signin" href="/auth?mode=login">Sign In</a>
         </header>
 
-        <div className="pro-strip"><span>PRO</span> Upgrade for full access beyond the 4 latest apps - Get Pro</div>
-
-        <section className="profile-hero">
-          <div className="hero-identity">
-            <img src={author.profileImageUrl || "https://placehold.co/120x120?text=Author"} alt={author.name} />
-            <div>
-              <h1>{author.name} <FiEdit2 /></h1>
-              <p>{followerCount} Followers&nbsp;&nbsp; {followingCount} Following</p>
-              <div className="badge-row">
-                <span>🏆 Top Contributor</span>
-                <span>✍️ Book Author</span>
-                <span>✨ Rising Voice</span>
-                <span>🔎 Thought Leader</span>
-                <span>🌿 Creative Voice</span>
-              </div>
-            </div>
+        <section className="author-profile-hero">
+          <div className="author-profile-avatar">
+            {author.profileImageUrl ? <img src={author.profileImageUrl} alt={author.name} /> : getInitials(author.name)}
           </div>
-
-          <div className="hero-stats">
-            <article className="mini-stat read">
-              <p>Read</p>
-              <span>-9%</span>
-              <strong>{readCount}</strong>
-            </article>
-            <article className="mini-stat published">
-              <p>Published</p>
-              <span>-9%</span>
-              <strong>{stats.posts}</strong>
-            </article>
-            <article className="mini-stat saved">
-              <p>Saved</p>
-              <span><FiTrendingUp /> 4%</span>
-              <strong>{savedCount}</strong>
-            </article>
+          <div className="author-profile-copy">
+            <h1>{author.name}</h1>
+            <p>{author.bio || "Author profile coming soon."}</p>
+            <div className="author-profile-meta">
+              {author.location ? <span><FiMapPin /> {author.location}</span> : null}
+              {author.website ? (
+                <a href={author.website} target="_blank" rel="noreferrer">
+                  <FiGlobe />
+                  <span>Website</span>
+                </a>
+              ) : null}
+              <span>{stats.books} books</span>
+              <span>{stats.posts} posts</span>
+            </div>
           </div>
         </section>
 
-        <section className="profile-content-grid">
-          <aside className="insights-panel">
-            <h2>Audience Insights</h2>
-            <p className="insight-note">A quick look at what&apos;s been vibin lately. Updated hourly</p>
+        <section className="author-profile-section">
+          <h2>Books</h2>
+          <div className="author-profile-book-grid">
+            {books.map((book) => (
+              <article className="author-public-book-card" key={book.id}>
+                <div className="author-public-book-cover">
+                  {book.coverImageUrl ? <img src={book.coverImageUrl} alt={book.title} /> : <FiBookOpen />}
+                </div>
+                <div className="author-public-book-body">
+                  <h3>{book.title}</h3>
+                  <p>{book.description || "No description provided yet."}</p>
+                  <div className="author-public-book-footer">
+                    <span>{book.genre || "Book"}</span>
+                    <a href={book.bookFileUrl} target="_blank" rel="noreferrer">Read</a>
+                  </div>
+                </div>
+              </article>
+            ))}
 
-            <article className="insight-card">
-              <h3>Top age ranges</h3>
-              <div className="bar-group">
-                <label>18-24</label>
-                <div><span style={{ width: "79%" }}></span></div>
-                <strong>79.08%</strong>
-              </div>
-              <div className="bar-group">
-                <label>25-30</label>
-                <div><span style={{ width: "65%" }}></span></div>
-                <strong>65.20%</strong>
-              </div>
-              <div className="bar-group">
-                <label>31-45</label>
-                <div><span style={{ width: "48%" }}></span></div>
-                <strong>48.67%</strong>
-              </div>
-            </article>
-
-            <article className="insight-card">
-              <h3>Top location</h3>
-              <div className="line-group"><label>Nigeria</label><span>79.08%</span></div>
-              <div className="line-group"><label>UK</label><span>57.12%</span></div>
-              <div className="line-group"><label>Canada</label><span>42.56%</span></div>
-            </article>
-
-            <article className="insight-device">
-              <p>Top Reader Device</p>
-              <div>
-                <span>Mobile</span>
-                <strong>72%</strong>
-              </div>
-            </article>
-          </aside>
-
-          <section className="posts-panel">
-            <div className="posts-head">
-              <h2>Recent Posts</h2>
-              <div className="posts-tabs">
-                <button className="active" type="button">Published</button>
-                <button type="button">Saved</button>
-                <button type="button">Archived</button>
-              </div>
-            </div>
-
-            <div className="posts-grid">
-              {cardPool.length === 0 ? (
-                <article className="post-card empty">
-                  <h3>No content yet</h3>
-                  <p>This author has not published posts or books yet.</p>
-                </article>
-              ) : (
-                cardPool.map((card, index) => (
-                  <article className="post-card" key={card.id}>
-                    <div className="post-meta-head">
-                      <p>{card.category}</p>
-                      <span>{card.date}</span>
-                    </div>
-
-                    <div className={`post-image theme-${index % 4}`}>
-                      {card.image ? <img src={card.image} alt={card.title} /> : null}
-                    </div>
-
-                    <h3>{card.title}</h3>
-                    <p>{card.body}</p>
-                  </article>
-                ))
-              )}
-            </div>
-          </section>
+            {books.length === 0 ? (
+              <article className="dashboard-inline-empty">
+                <h3>No books published yet</h3>
+                <p>This author has not added any books yet.</p>
+              </article>
+            ) : null}
+          </div>
         </section>
 
-        <footer className="profile-footer">
-          <div className="footer-brand">
-            <h3>
-              <img src="/logo.png" alt="Spotlight Surge" />
-            </h3>
-            <p>Your daily dose of culture, trends, and beyond.</p>
+        <section className="author-profile-section">
+          <h2>Posts</h2>
+          <div className="author-public-posts">
+            {posts.map((post) => (
+              <article className="author-public-post-row" key={post.id}>
+                <div className="dashboard-list-icon"><FiEdit3 /></div>
+                <div className="author-public-post-copy">
+                  <h3>{post.title}</h3>
+                  <p>{formatDate(post.createdAt)}</p>
+                </div>
+                <span className="author-public-post-comments">
+                  <FiMessageCircle />
+                  <span>{Math.max(0, post.content.length % 32)}</span>
+                </span>
+              </article>
+            ))}
+
+            {posts.length === 0 ? (
+              <article className="dashboard-inline-empty">
+                <h3>No posts published yet</h3>
+                <p>Recent writing updates will appear here.</p>
+              </article>
+            ) : null}
           </div>
-          <div>
-            <h4>Quick Links</h4>
-            <p>About</p>
-            <p>Contact</p>
-            <p>Archive</p>
-          </div>
-          <div>
-            <h4>Social</h4>
-            <p>Instagram</p>
-            <p>Facebook</p>
-            <p>X (Twitter)</p>
-          </div>
-          <div>
-            <h4>Topics</h4>
-            <p>Sports</p>
-            <p>Technology</p>
-            <p>Finance</p>
-          </div>
-          <div>
-            <h4>Genres</h4>
-            <p>New Releases</p>
-            <p>Nostalgia</p>
-            <p>Recommended</p>
-          </div>
-        </footer>
+        </section>
       </section>
     </main>
   );

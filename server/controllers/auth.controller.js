@@ -8,7 +8,7 @@ import { clearSessionCookie, issueSession, revokeSessionByCookie } from "../serv
 import { publicUser } from "../utils.js";
 
 export async function register(req, res) {
-  const { name, email, password, accountType, bio, website } = req.body;
+  const { name, email, password, accountType, bio, location, website } = req.body;
   const normalizedEmail = email.toLowerCase();
 
   const existing = await prisma.user.findUnique({ where: { email: normalizedEmail } });
@@ -26,6 +26,7 @@ export async function register(req, res) {
       passwordHash,
       role: isAuthor ? "AUTHOR" : "READER",
       bio: isAuthor ? bio : "",
+      location: isAuthor ? location : "",
       website: isAuthor ? website : ""
     }
   });
@@ -128,6 +129,7 @@ export async function updateMe(req, res) {
     data: {
       name: req.body.name ?? current.name,
       bio: req.body.bio ?? current.bio,
+      location: req.body.location ?? current.location,
       website: req.body.website ?? current.website,
       profileImageUrl
     }
@@ -156,6 +158,7 @@ export async function upgradeToAuthor(req, res) {
     data: {
       role: "AUTHOR",
       bio: req.body.bio || current.bio,
+      location: req.body.location || current.location,
       website: req.body.website || current.website,
       profileImageUrl
     }
@@ -178,6 +181,7 @@ export async function listAuthors(req, res) {
       name: true,
       role: true,
       bio: true,
+      location: true,
       website: true,
       profileImageUrl: true,
       createdAt: true

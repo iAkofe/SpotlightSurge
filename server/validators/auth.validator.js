@@ -11,6 +11,7 @@ export const registerSchema = z.object({
     password,
     accountType: z.enum(["reader", "author"]).default("reader"),
     bio: z.string().trim().max(1200).optional().default(""),
+    location: z.string().trim().max(160).optional().default(""),
     website
   }),
   params: z.object({}),
@@ -30,6 +31,7 @@ export const updateProfileSchema = z.object({
   body: z.object({
     name: z.string().trim().min(2).max(120).optional(),
     bio: z.string().trim().max(1200).optional(),
+    location: z.string().trim().max(160).optional(),
     website
   }),
   params: z.object({}),
@@ -39,6 +41,7 @@ export const updateProfileSchema = z.object({
 export const upgradeToAuthorSchema = z.object({
   body: z.object({
     bio: z.string().trim().max(1200).optional().default(""),
+    location: z.string().trim().max(160).optional().default(""),
     website
   }),
   params: z.object({}),

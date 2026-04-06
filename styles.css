@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap");
 @import "./components/Header/Header.css";
 @import "./components/HeroSection/HeroSection.css";
 @import "./components/AuthorSpotlightSection/AuthorSpotlightSection.css";
@@ -15,8 +16,10 @@
 @import "./components/AuthorProfile/AuthorProfile.css";
 
 :root {
-  --font-body: "Manrope";
-  --font-display: "Sora";
+  --font-body: "DM Sans";
+  --font-display: "DM Sans";
+  --font-dashboard: "DM Sans";
+  --font-auth-serif: "DM Sans";
   --bg: #f8f6ff;
   --canvas: #ffffff;
   --canvas-soft: #f6f2ff;
@@ -85,7 +88,7 @@ h4 {
   color: var(--ink);
   letter-spacing: -0.02em;
   line-height: 1.08;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 h1 {

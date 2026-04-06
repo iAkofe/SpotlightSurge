@@ -25,6 +25,7 @@ model User {
   passwordHash    String
   role            Role           @default(READER)
   bio             String         @default("")
+  location        String         @default("")
   website         String         @default("")
   profileImageUrl String         @default("")
   books           Book[]

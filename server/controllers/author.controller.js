@@ -10,6 +10,7 @@ export async function getAuthorProfile(req, res) {
       name: true,
       role: true,
       bio: true,
+      location: true,
       website: true,
       profileImageUrl: true,
       createdAt: true
@@ -47,6 +48,7 @@ export async function listPublicAuthors(req, res) {
       name: true,
       role: true,
       bio: true,
+      location: true,
       website: true,
       profileImageUrl: true,
       createdAt: true

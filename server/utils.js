@@ -5,6 +5,7 @@ export function publicUser(user) {
     email: user.email,
     role: user.role,
     bio: user.bio,
+    location: user.location,
     website: user.website,
     profileImageUrl: user.profileImageUrl,
     createdAt: user.createdAt,

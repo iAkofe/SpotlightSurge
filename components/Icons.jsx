@@ -126,8 +126,16 @@ export function FiBarChart2(props) {
   return <FeatherIcon {...props}><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></FeatherIcon>;
 }
 
+export function FiArrowLeft(props) {
+  return <FeatherIcon {...props}><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></FeatherIcon>;
+}
+
 export function FiBookOpen(props) {
   return <FeatherIcon {...props}><path d="M2 6.5A2.5 2.5 0 0 1 4.5 4H11v16H4.5A2.5 2.5 0 0 0 2 22V6.5Z" /><path d="M22 6.5A2.5 2.5 0 0 0 19.5 4H13v16h6.5A2.5 2.5 0 0 1 22 22V6.5Z" /></FeatherIcon>;
+}
+
+export function FiCalendar(props) {
+  return <FeatherIcon {...props}><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></FeatherIcon>;
 }
 
 export function FiDatabase(props) {
@@ -162,8 +170,20 @@ export function FiMail(props) {
   return <FeatherIcon {...props}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></FeatherIcon>;
 }
 
+export function FiMapPin(props) {
+  return <FeatherIcon {...props}><path d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0Z" /><circle cx="12" cy="10" r="3" /></FeatherIcon>;
+}
+
 export function FiMenu(props) {
   return <FeatherIcon {...props}><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></FeatherIcon>;
+}
+
+export function FiMessageCircle(props) {
+  return <FeatherIcon {...props}><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5A8.4 8.4 0 0 1 8 18.7L3 20l1.3-5A8.4 8.4 0 0 1 3 11.5 8.5 8.5 0 1 1 21 11.5Z" /></FeatherIcon>;
+}
+
+export function FiMoreVertical(props) {
+  return <FeatherIcon {...props}><circle cx="12" cy="5" r="1" fill="currentColor" stroke="none" /><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none" /></FeatherIcon>;
 }
 
 export function FiPlus(props) {
@@ -184,6 +204,14 @@ export function FiShare2(props) {
 
 export function FiTrendingUp(props) {
   return <FeatherIcon {...props}><polyline points="3 17 9 11 13 15 21 7" /><polyline points="14 7 21 7 21 14" /></FeatherIcon>;
+}
+
+export function FiUpload(props) {
+  return <FeatherIcon {...props}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 5 17 10" /><line x1="12" y1="5" x2="12" y2="16" /></FeatherIcon>;
+}
+
+export function FiUser(props) {
+  return <FeatherIcon {...props}><path d="M20 21a8 8 0 0 0-16 0" /><circle cx="12" cy="7" r="4" /></FeatherIcon>;
 }
 
 export function FiUsers(props) {
