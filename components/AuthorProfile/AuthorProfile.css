@@ -69,6 +69,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.25s ease;
+  transform-origin: center;
+}
+
+.author-public-book-card:hover .author-public-book-cover img {
+  transform: scale(1.04);
 }
 
 .author-public-book-body {
@@ -97,6 +103,56 @@
   font-weight: 600;
 }
 
+.author-public-post-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.author-public-post-card {
+  overflow: hidden;
+}
+
+.author-public-post-cover {
+  height: 10rem;
+  display: grid;
+  place-items: center;
+  background: #efe8fd;
+  color: #a790dc;
+}
+
+.author-public-post-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+  transform-origin: center;
+}
+
+.author-public-post-card:hover .author-public-post-cover img {
+  transform: scale(1.04);
+}
+
+.author-public-post-body {
+  padding: 1rem;
+}
+
+.author-public-post-body p {
+  margin-top: 0.3rem;
+  color: #817892;
+  font-size: 13px;
+}
+
+.author-public-post-footer {
+  margin-top: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #8f879f;
+  font-size: 0.9rem;
+}
+
 .author-public-post-copy h3 {
   margin-bottom: 0.15rem;
 }
@@ -114,6 +170,10 @@
   }
 
   .author-profile-book-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .author-public-post-grid {
     grid-template-columns: 1fr;
   }
 }

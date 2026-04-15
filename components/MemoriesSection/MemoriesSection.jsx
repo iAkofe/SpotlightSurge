@@ -1,4 +1,6 @@
-const memories = [
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
+const fallbackMemories = [
   {
     image:
       "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1000&q=80",
@@ -19,7 +21,28 @@ const memories = [
   }
 ];
 
-export default function MemoriesSection() {
+export default async function MemoriesSection() {
+  let memories = fallbackMemories;
+
+  try {
+    const response = await fetch(`${API_BASE}/api/posts`, { cache: "no-store" });
+    if (response.ok) {
+      const data = await response.json();
+      const posts = Array.isArray(data?.posts) ? data.posts : [];
+      const picks = posts.slice(0, 3).map((post, index) => ({
+        image: post.coverImage || fallbackMemories[index]?.image,
+        alt: post.title || fallbackMemories[index]?.alt,
+        copy:
+          post.excerpt ||
+          `${post.author?.name ? `${post.author.name}: ` : ""}${post.title || "Recent update"}`
+      }));
+
+      if (picks.length === 3) {
+        memories = picks;
+      }
+    }
+  } catch {}
+
   return (
     <section className="memories-section">
       <div className="container section-shell memories-shell">

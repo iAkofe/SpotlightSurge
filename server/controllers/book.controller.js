@@ -39,6 +39,29 @@ export async function listMyBooks(req, res) {
   res.json({ books: books.map(publicBook) });
 }
 
+export async function listPublicBooks(_req, res) {
+  const books = await prisma.book.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          role: true,
+          profileImageUrl: true
+        }
+      }
+    }
+  });
+
+  res.json({
+    books: books.map((book) => ({
+      ...publicBook(book),
+      author: book.author
+    }))
+  });
+}
+
 export async function listBooks(req, res) {
   const books = await prisma.book.findMany({
     orderBy: { createdAt: "desc" },

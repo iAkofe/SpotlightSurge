@@ -48,26 +48,71 @@ const initialProfile = {
   website: ""
 };
 
-const events = [
-  {
-    id: "highlight",
-    badge: "Monthly Highlight",
-    title: "Monthly Book Highlight — April",
-    description: "You've been selected for this month's highlight. Discuss your latest work with engaged readers.",
-    date: "April 15, 2026 at 7:00 PM EST",
-    interested: 34,
-    featured: true
-  },
-  {
-    id: "qa",
-    badge: "",
-    title: "Author Q&A Session",
-    description: "An open session for readers to ask questions about your writing process and upcoming works.",
-    date: "April 22, 2026 at 3:00 PM EST",
-    interested: 19,
-    featured: false
-  }
-];
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function estimateBookViews(book) {
+  const year = new Date().getFullYear();
+  const yearsSince = book.publishedYear ? Math.max(0, year - book.publishedYear) : 1;
+  const titleScore = (book.title || "").length * 11;
+  const genreScore = (book.genre || "").length * 3;
+  return 220 + titleScore + genreScore + yearsSince * 37;
+}
+
+function estimatePostViews(post) {
+  const titleScore = (post.title || "").length * 7;
+  const categoryScore = (post.category || "").length * 4;
+  const contentScore = Math.min(240, Math.floor((post.content || "").length / 18));
+  return 140 + titleScore + categoryScore + contentScore;
+}
+
+function estimateComments(seed) {
+  const value = (seed || "").length * 3;
+  return clamp(value % 47, 0, 46);
+}
+
+function formatEventDate(value) {
+  return value.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+}
+
+function buildEvents(user, books) {
+  const displayName = user?.name || "Author";
+  const latestBook = books?.[0];
+  const month = new Date().toLocaleDateString(undefined, { month: "long" });
+
+  const first = new Date();
+  first.setDate(first.getDate() + 6);
+  first.setHours(19, 0, 0, 0);
+
+  const second = new Date();
+  second.setDate(second.getDate() + 13);
+  second.setHours(15, 0, 0, 0);
+
+  const highlightTitle = latestBook?.title ? `“${latestBook.title}”` : "your latest title";
+  const highlightInterested = clamp(18 + books.length * 7, 6, 82);
+
+  return [
+    {
+      id: "highlight",
+      badge: "Monthly Highlight",
+      title: `Monthly Book Highlight — ${month}`,
+      description: `${displayName}, you’ve been selected for this month’s highlight. Talk with readers about ${highlightTitle}.`,
+      date: `${formatEventDate(first)} at 7:00 PM`,
+      interested: highlightInterested,
+      featured: true
+    },
+    {
+      id: "qa",
+      badge: "",
+      title: "Author Q&A Session",
+      description: "An open session for readers to ask questions about your writing process, themes, and upcoming work.",
+      date: `${formatEventDate(second)} at 3:00 PM`,
+      interested: clamp(10 + Math.floor(books.length * 4 + (user?.bio || "").length / 30), 5, 64),
+      featured: false
+    }
+  ];
+}
 
 function formatDate(value) {
   try {
@@ -367,9 +412,20 @@ export default function AuthorDashboard() {
     );
   });
 
-  const totalViews = books.reduce((sum, _book, index) => sum + (index === 0 ? 847 : 0), 0) + posts.length * 128;
-  const uniqueVisitors = Math.max(1203, books.length * 320 + posts.length * 190);
-  const engagementRate = Math.min(92, 28 + books.length * 5 + posts.length * 3);
+  const metrics = useMemo(() => {
+    const bookViews = books.reduce((sum, book) => sum + estimateBookViews(book), 0);
+    const postViews = posts.reduce((sum, post) => sum + estimatePostViews(post), 0);
+    const totalViews = bookViews + postViews;
+    const uniqueVisitors = Math.max(1, Math.round(totalViews * 0.62));
+    const engagementRate = clamp(
+      Math.round(((books.length * 6 + posts.length * 4) / Math.max(1, uniqueVisitors / 100)) * 10) / 10,
+      6,
+      98
+    );
+    return { totalViews, uniqueVisitors, engagementRate };
+  }, [books, posts]);
+
+  const events = useMemo(() => buildEvents(user, books), [user, books]);
 
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: FiGrid },
@@ -484,7 +540,7 @@ export default function AuthorDashboard() {
                       </div>
                       <FaRegEye />
                     </div>
-                    <strong>{totalViews.toLocaleString()}</strong>
+                    <strong>{metrics.totalViews.toLocaleString()}</strong>
                     <span>+12%</span>
                   </article>
 
@@ -496,7 +552,7 @@ export default function AuthorDashboard() {
                       </div>
                       <FiUsers />
                     </div>
-                    <strong>{uniqueVisitors.toLocaleString()}</strong>
+                    <strong>{metrics.uniqueVisitors.toLocaleString()}</strong>
                     <span>+8%</span>
                   </article>
 
@@ -508,7 +564,7 @@ export default function AuthorDashboard() {
                       </div>
                       <FiTrendingUp />
                     </div>
-                    <strong>{engagementRate}%</strong>
+                    <strong>{metrics.engagementRate}%</strong>
                     <span>+5%</span>
                   </article>
                 </section>
@@ -526,9 +582,9 @@ export default function AuthorDashboard() {
                           <div className="dashboard-list-icon"><FiBookOpen /></div>
                           <div className="dashboard-list-copy">
                             <strong>{book.title}</strong>
-                            <span>{index === 0 ? "847 views" : "0 views"}</span>
+                            <span>{estimateBookViews(book).toLocaleString()} views</span>
                           </div>
-                          <em className={index === 0 ? "published" : "draft"}>{index === 0 ? "Published" : "Draft"}</em>
+                          <em className="published">Published</em>
                         </article>
                       ))}
 
@@ -623,9 +679,9 @@ export default function AuthorDashboard() {
                         </div>
                         <p>{book.description || "Add a description to help readers discover this title."}</p>
                         <div className="dashboard-book-meta">
-                          <span className={index === 0 ? "published" : "draft"}>{index === 0 ? "Published" : "Draft"}</span>
-                          <small>{index === 0 ? "847 views" : "0 views"}</small>
-                          <small>{Math.max(0, posts.length - index * 2)} comments</small>
+                          <span className="published">Published</span>
+                          <small>{estimateBookViews(book).toLocaleString()} views</small>
+                          <small>{estimateComments(`${book.id}-${posts.length}`)} comments</small>
                         </div>
                       </div>
                     </article>
@@ -655,7 +711,9 @@ export default function AuthorDashboard() {
                       <div className="dashboard-feed-copy">
                         <h2>{post.title}</h2>
                         <p>{post.excerpt || post.content.slice(0, 120)}</p>
-                        <span>{formatDate(post.createdAt)} {posts.length ? ` ${Math.max(0, posts.length * 7)} comments` : ""}</span>
+                        <span>
+                          {formatDate(post.createdAt)} {` ${estimateComments(`${post.id}-${post.title}`)} comments`}
+                        </span>
                       </div>
                       <button type="button" aria-label="Post actions"><FiMoreVertical /></button>
                     </article>

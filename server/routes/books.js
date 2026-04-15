@@ -1,5 +1,5 @@
 import express from "express";
-import { createBook, deleteBook, listBooks, listMyBooks } from "../controllers/book.controller.js";
+import { createBook, deleteBook, listBooks, listMyBooks, listPublicBooks } from "../controllers/book.controller.js";
 import { asyncHandler } from "../middleware/async.js";
 import { requireAuth, requireAuthor } from "../middleware/auth.js";
 import { uploadRateLimit } from "../middleware/rate-limit.js";
@@ -23,6 +23,7 @@ router.post(
   asyncHandler(createBook)
 );
 
+router.get("/public", asyncHandler(listPublicBooks));
 router.get("/me", requireAuth, requireAuthor, asyncHandler(listMyBooks));
 router.get("/", requireAuth, asyncHandler(listBooks));
 router.delete("/:id", requireAuth, requireAuthor, validate(idParamSchema), asyncHandler(deleteBook));

@@ -136,18 +136,23 @@ export default function AuthorProfile({ authorId }) {
 
         <section className="author-profile-section">
           <h2>Posts</h2>
-          <div className="author-public-posts">
+          <div className="author-public-post-grid">
             {posts.map((post) => (
-              <article className="author-public-post-row" key={post.id}>
-                <div className="dashboard-list-icon"><FiEdit3 /></div>
-                <div className="author-public-post-copy">
-                  <h3>{post.title}</h3>
-                  <p>{formatDate(post.createdAt)}</p>
+              <article className="author-public-post-card" key={post.id}>
+                <div className="author-public-post-cover">
+                  {post.coverImage ? <img src={post.coverImage} alt={post.title} /> : <FiEdit3 />}
                 </div>
-                <span className="author-public-post-comments">
-                  <FiMessageCircle />
-                  <span>{Math.max(0, post.content.length % 32)}</span>
-                </span>
+                <div className="author-public-post-body">
+                  <h3>{post.title}</h3>
+                  <p>{post.excerpt || post.content.slice(0, 120)}</p>
+                  <div className="author-public-post-footer">
+                    <span>{formatDate(post.createdAt)}</span>
+                    <span className="author-public-post-comments">
+                      <FiMessageCircle />
+                      <span>{Math.max(0, post.content.length % 32)}</span>
+                    </span>
+                  </div>
+                </div>
               </article>
             ))}
 

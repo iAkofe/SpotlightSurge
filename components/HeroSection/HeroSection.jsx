@@ -1,4 +1,6 @@
-const heroImages = [
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
+const fallbackImages = [
   {
     src: "https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&w=700&q=80",
     alt: "Books and coffee"
@@ -21,7 +23,28 @@ const heroImages = [
   }
 ];
 
-export default function HeroSection() {
+export default async function HeroSection() {
+  let heroImages = fallbackImages;
+
+  try {
+    const response = await fetch(`${API_BASE}/api/books/public`, { cache: "no-store" });
+    if (response.ok) {
+      const data = await response.json();
+      const books = Array.isArray(data?.books) ? data.books : [];
+      const covers = books
+        .filter((book) => book?.coverImageUrl)
+        .slice(0, 5)
+        .map((book) => ({
+          src: book.coverImageUrl,
+          alt: book.title || "Featured book"
+        }));
+
+      if (covers.length >= 3) {
+        heroImages = covers.length >= 5 ? covers : [...covers, ...fallbackImages].slice(0, 5);
+      }
+    }
+  } catch {}
+
   return (
     <section className="hero">
       <div className="container hero-shell">
