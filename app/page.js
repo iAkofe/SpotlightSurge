@@ -7,6 +7,7 @@ import AwardsSection from "@/components/AwardsSection/AwardsSection";
 import LaunchSection from "@/components/LaunchSection/LaunchSection";
 import MemoriesSection from "@/components/MemoriesSection/MemoriesSection";
 import ServicesSection from "@/components/ServicesSection/ServicesSection";
+import RecentPostsSection from "@/components/RecentPostsSection/RecentPostsSection";
 import CtaSection from "@/components/CtaSection/CtaSection";
 import NewsletterSection from "@/components/NewsletterSection/NewsletterSection";
 import Footer from "@/components/Footer/Footer";
@@ -23,6 +24,7 @@ export default function HomePage() {
         <LaunchSection />
         <MemoriesSection />
         <ServicesSection />
+        <RecentPostsSection />
         <CtaSection />
         <NewsletterSection />
       </main>

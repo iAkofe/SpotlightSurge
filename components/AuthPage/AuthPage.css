@@ -1,9 +1,7 @@
 .auth-page-main {
   font-family: var(--font-dashboard), sans-serif;
-  width: 100vw;
+  width: 100%;
   min-height: 100dvh;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
   background: #f7f5fc;
 }
 

@@ -15,6 +15,7 @@
 @import "./components/AuthorDashboard/AuthorDashboard.css";
 @import "./components/AuthorProfile/AuthorProfile.css";
 @import "./components/Archive/Archive.css";
+@import "./components/RecentPostsSection/RecentPostsSection.css";
 
 :root {
   --font-body: "DM Sans";
@@ -46,7 +47,7 @@ body {
   background: linear-gradient(180deg, #fbf9ff 0%, #f2ecff 100%);
   line-height: 1.6;
   min-height: 100vh;
-  padding: 0 4vw;
+  padding: 0;
   overflow-x: hidden;
 }
 
@@ -62,10 +63,10 @@ a {
 
 .container {
   width: 100%;
-  max-width: none;
-  margin: 0;
-  padding-left: clamp(1rem, 2vw, 1.6rem);
-  padding-right: clamp(1rem, 2vw, 1.6rem);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: clamp(1rem, 4vw, 2rem);
+  padding-right: clamp(1rem, 4vw, 2rem);
 }
 
 header,
@@ -246,7 +247,7 @@ main > section:nth-of-type(5) .container {
 
 @media (max-width: 768px) {
   body {
-    padding: 0 2.2vw;
+    padding: 0;
   }
 
   section {
@@ -265,7 +266,7 @@ main > section:nth-of-type(5) .container {
 
 @media (max-width: 640px) {
   body {
-    padding: 0.7rem 0;
+    padding: 0;
   }
 
   .container {
