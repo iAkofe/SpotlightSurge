@@ -1,24 +1,26 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  FaRegEye,
-  FiArrowLeft,
-  FiBookOpen,
-  FiCalendar,
-  FiEdit3,
-  FiGlobe,
-  FiGrid,
-  FiLogOut,
-  FiMoreVertical,
-  FiPlus,
-  FiSearch,
-  FiSettings,
-  FiTrendingUp,
-  FiUpload,
-  FiUser,
-  FiUsers
-} from "../Icons";
+  Eye,
+  ArrowLeft,
+  BookOpen,
+  Calendar,
+  Edit3,
+  Globe,
+  LayoutGrid,
+  LogOut,
+  MoreVertical,
+  Plus,
+  Search,
+  Settings,
+  TrendingUp,
+  Upload,
+  User,
+  Users
+} from "lucide-react";
+import "./AuthorDashboard.css";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
@@ -428,18 +430,18 @@ export default function AuthorDashboard() {
   const events = useMemo(() => buildEvents(user, books), [user, books]);
 
   const navItems = [
-    { id: "dashboard", label: "Dashboard", icon: FiGrid },
-    { id: "books", label: "My Books", icon: FiBookOpen },
-    { id: "posts", label: "Posts", icon: FiEdit3 },
-    { id: "events", label: "Events", icon: FiCalendar },
-    { id: "profile", label: "Profile", icon: FiUser }
+    { id: "dashboard", label: "Dashboard", icon: LayoutGrid },
+    { id: "books", label: "My Books", icon: BookOpen },
+    { id: "posts", label: "Posts", icon: Edit3 },
+    { id: "events", label: "Events", icon: Calendar },
+    { id: "profile", label: "Profile", icon: User }
   ];
 
   const topAction =
     view === "books"
-      ? { label: "Add Book", action: () => setView("new-book"), icon: FiPlus }
+      ? { label: "Add Book", action: () => setView("new-book"), icon: Plus }
       : view === "posts"
-        ? { label: "New Post", action: () => setView("new-post"), icon: FiPlus }
+        ? { label: "New Post", action: () => setView("new-post"), icon: Plus }
         : null;
 
   if (loading) {
@@ -483,26 +485,26 @@ export default function AuthorDashboard() {
           <div className="dashboard-sidebar-group">
             <p>Quick Actions</p>
             <button type="button" onClick={() => setView("new-book")}>
-              <FiPlus />
+              <Plus />
               <span>Add Book</span>
             </button>
             <button type="button" onClick={() => setView("new-post")}>
-              <FiPlus />
+              <Plus />
               <span>New Post</span>
             </button>
           </div>
 
           <div className="dashboard-sidebar-footer">
             <a href={user ? `/authors/${user.id}` : "#"}>
-              <FiGlobe />
+              <Globe />
               <span>View Public Profile</span>
             </a>
             <button type="button" onClick={() => setView("profile")}>
-              <FiSettings />
+              <Settings />
               <span>Settings</span>
             </button>
             <button type="button" className="logout" onClick={logout}>
-              <FiLogOut />
+              <LogOut />
               <span>Logout</span>
             </button>
           </div>
@@ -538,7 +540,7 @@ export default function AuthorDashboard() {
                         <h2>Total Views</h2>
                         <p>Total views across all books and posts</p>
                       </div>
-                      <FaRegEye />
+                      <Eye />
                     </div>
                     <strong>{metrics.totalViews.toLocaleString()}</strong>
                     <span>+12%</span>
@@ -550,7 +552,7 @@ export default function AuthorDashboard() {
                         <h2>Unique Visitors</h2>
                         <p>Estimated from recent engagement</p>
                       </div>
-                      <FiUsers />
+                      <Users />
                     </div>
                     <strong>{metrics.uniqueVisitors.toLocaleString()}</strong>
                     <span>+8%</span>
@@ -562,7 +564,7 @@ export default function AuthorDashboard() {
                         <h2>Engagement Rate</h2>
                         <p>Interaction rate on your content</p>
                       </div>
-                      <FiTrendingUp />
+                      <TrendingUp />
                     </div>
                     <strong>{metrics.engagementRate}%</strong>
                     <span>+5%</span>
@@ -579,7 +581,7 @@ export default function AuthorDashboard() {
                     <div className="dashboard-list">
                       {books.slice(0, 2).map((book, index) => (
                         <article className="dashboard-list-row" key={book.id}>
-                          <div className="dashboard-list-icon"><FiBookOpen /></div>
+                          <div className="dashboard-list-icon"><BookOpen /></div>
                           <div className="dashboard-list-copy">
                             <strong>{book.title}</strong>
                             <span>{estimateBookViews(book).toLocaleString()} views</span>
@@ -605,7 +607,7 @@ export default function AuthorDashboard() {
                     <div className="dashboard-list">
                       {events.map((event) => (
                         <article className="dashboard-list-row" key={event.id}>
-                          <div className="dashboard-list-icon"><FiCalendar /></div>
+                          <div className="dashboard-list-icon"><Calendar /></div>
                           <div className="dashboard-list-copy">
                             <strong>{event.title}</strong>
                             <span>{event.date}</span>
@@ -625,7 +627,7 @@ export default function AuthorDashboard() {
 
                   {posts.length === 0 ? (
                     <div className="dashboard-empty-state">
-                      <div className="dashboard-empty-icon"><FiEdit3 /></div>
+                      <div className="dashboard-empty-icon"><Edit3 /></div>
                       <h3>No posts yet</h3>
                       <p>Share insights and updates with your readers</p>
                       <button type="button" className="dashboard-primary-btn" onClick={() => setView("new-post")}>
@@ -636,7 +638,7 @@ export default function AuthorDashboard() {
                     <div className="dashboard-post-list">
                       {posts.slice(0, 3).map((post) => (
                         <article className="dashboard-post-row" key={post.id}>
-                          <div className="dashboard-list-icon"><FiEdit3 /></div>
+                          <div className="dashboard-list-icon"><Edit3 /></div>
                           <div>
                             <strong>{post.title}</strong>
                             <p>{post.excerpt || post.content.slice(0, 110)}</p>
@@ -657,7 +659,7 @@ export default function AuthorDashboard() {
                 </section>
 
                 <label className="dashboard-search">
-                  <FiSearch />
+                  <Search />
                   <input
                     type="search"
                     placeholder="Search books..."
@@ -670,12 +672,12 @@ export default function AuthorDashboard() {
                   {filteredBooks.map((book, index) => (
                     <article className="dashboard-book-card" key={book.id}>
                       <div className="dashboard-book-cover">
-                        {book.coverImageUrl ? <img src={book.coverImageUrl} alt={book.title} /> : <FiBookOpen />}
+                        {book.coverImageUrl ? <img src={book.coverImageUrl} alt={book.title} /> : <BookOpen />}
                       </div>
                       <div className="dashboard-book-body">
                         <div className="dashboard-book-head">
                           <h2>{book.title}</h2>
-                          <button type="button" aria-label="Book actions"><FiMoreVertical /></button>
+                          <button type="button" aria-label="Book actions"><MoreVertical /></button>
                         </div>
                         <p>{book.description || "Add a description to help readers discover this title."}</p>
                         <div className="dashboard-book-meta">
@@ -707,7 +709,7 @@ export default function AuthorDashboard() {
                 <section className="dashboard-rows">
                   {posts.map((post) => (
                     <article className="dashboard-feed-row" key={post.id}>
-                      <div className="dashboard-list-icon"><FiEdit3 /></div>
+                      <div className="dashboard-list-icon"><Edit3 /></div>
                       <div className="dashboard-feed-copy">
                         <h2>{post.title}</h2>
                         <p>{post.excerpt || post.content.slice(0, 120)}</p>
@@ -715,7 +717,7 @@ export default function AuthorDashboard() {
                           {formatDate(post.createdAt)} {` ${estimateComments(`${post.id}-${post.title}`)} comments`}
                         </span>
                       </div>
-                      <button type="button" aria-label="Post actions"><FiMoreVertical /></button>
+                      <button type="button" aria-label="Post actions"><MoreVertical /></button>
                     </article>
                   ))}
 
@@ -732,7 +734,7 @@ export default function AuthorDashboard() {
             {view === "new-post" ? (
               <>
                 <button type="button" className="dashboard-back-link" onClick={() => setView("posts")}>
-                  <FiArrowLeft />
+                  <ArrowLeft />
                   <span>Back</span>
                 </button>
 
@@ -811,7 +813,7 @@ export default function AuthorDashboard() {
             {view === "new-book" ? (
               <>
                 <button type="button" className="dashboard-back-link" onClick={() => setView("books")}>
-                  <FiArrowLeft />
+                  <ArrowLeft />
                   <span>Back</span>
                 </button>
 
@@ -826,7 +828,7 @@ export default function AuthorDashboard() {
                       <span>Book Cover</span>
                       <input name="coverImage" type="file" accept="image/*" onChange={onBookChange} />
                       <div>
-                        <FiUpload />
+                        <Upload />
                         <small>{bookForm.coverImage ? bookForm.coverImage.name : "Upload cover"}</small>
                       </div>
                     </label>
@@ -927,8 +929,8 @@ export default function AuthorDashboard() {
                       <h2>{event.title}</h2>
                       <p>{event.description}</p>
                       <div className="dashboard-event-meta">
-                        <span><FiCalendar /> {event.date}</span>
-                        <span><FiUsers /> {event.interested} interested</span>
+                        <span><Calendar /> {event.date}</span>
+                        <span><Users /> {event.interested} interested</span>
                       </div>
                     </article>
                   ))}

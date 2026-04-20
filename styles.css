@@ -14,6 +14,7 @@
 @import "./components/AuthPage/AuthPage.css";
 @import "./components/AuthorDashboard/AuthorDashboard.css";
 @import "./components/AuthorProfile/AuthorProfile.css";
+@import "./components/Archive/Archive.css";
 
 :root {
   --font-body: "DM Sans";

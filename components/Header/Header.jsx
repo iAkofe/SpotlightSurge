@@ -11,6 +11,7 @@ export default function Header() {
           <a href="#books">Books</a>
           <a href="#authors">Authors</a>
           <a href="#events">Events</a>
+          <a href="/archive">Archive</a>
           <a href="/auth">Community</a>
         </nav>
         <a className="btn btn-secondary" href="/auth">
