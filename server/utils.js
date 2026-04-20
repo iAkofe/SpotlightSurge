@@ -23,6 +23,8 @@ export function publicBook(book) {
     publishedYear: book.publishedYear,
     bookFileUrl: book.bookFileUrl,
     coverImageUrl: book.coverImageUrl,
+    purchaseLink: book.purchaseLink,
+    snippet: book.snippet,
     createdAt: book.createdAt,
     updatedAt: book.updatedAt
   };

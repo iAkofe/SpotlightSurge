@@ -165,7 +165,9 @@ function makeBooksFor(author, offset) {
       publishedYear: year - 2,
       description: "A vivid journey where a single decision reshapes a life, a family, and the stories they tell themselves.",
       bookFileUrl: `https://example.com/books/${author.email}/first-light.pdf`,
-      coverImageUrl: pick(coverImages, offset)
+      coverImageUrl: pick(coverImages, offset),
+      purchaseLink: "https://amazon.com",
+      snippet: "The first chapter started with a loud bang, and nobody knew where the sound came from. It echoed across the room, leaving everyone in a state of absolute shock and silence. The door slowly creaked open..."
     },
     {
       title: "Letters to the Quiet City",
@@ -173,7 +175,9 @@ function makeBooksFor(author, offset) {
       publishedYear: year - 1,
       description: "A layered story about love, legacy, and the courage it takes to start again when everything feels unfinished.",
       bookFileUrl: `https://example.com/books/${author.email}/quiet-city.pdf`,
-      coverImageUrl: pick(coverImages, offset + 1)
+      coverImageUrl: pick(coverImages, offset + 1),
+      purchaseLink: "https://amazon.com",
+      snippet: "Dear city of quiet nights, I write to you not as a friend, but as someone who has lost everything in your streets. The rain hasn't stopped since Tuesday, and my heart feels just as heavy as the clouds above."
     },
     {
       title: "The Map Between Us",
@@ -181,7 +185,9 @@ function makeBooksFor(author, offset) {
       publishedYear: year,
       description: "A fast-moving, heartfelt narrative exploring distance, devotion, and the invisible lines that bind us.",
       bookFileUrl: `https://example.com/books/${author.email}/map-between-us.pdf`,
-      coverImageUrl: pick(coverImages, offset + 2)
+      coverImageUrl: pick(coverImages, offset + 2),
+      purchaseLink: "https://amazon.com",
+      snippet: "She looked at the map, tracing the line from her city to his. It was only three inches on paper, but it felt like a million miles in reality. 'I'll see you soon,' she whispered to the empty room."
     }
   ];
 }
@@ -274,7 +280,9 @@ async function main() {
         genre: book.genre,
         publishedYear: book.publishedYear,
         bookFileUrl: book.bookFileUrl,
-        coverImageUrl: book.coverImageUrl
+        coverImageUrl: book.coverImageUrl,
+        purchaseLink: book.purchaseLink,
+        snippet: book.snippet
       }))
     });
 

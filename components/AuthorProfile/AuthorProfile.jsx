@@ -11,6 +11,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import "./AuthorProfile.css";
+import "../Archive/Archive-extra.css";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
@@ -184,9 +185,23 @@ export default function AuthorProfile({ authorId }) {
                   <span className="book-genre">{book.genre || "Book"}</span>
                   <h3>{book.title}</h3>
                   <p>{book.description || "No description provided yet."}</p>
-                  <a className="book-read-link" href={book.bookFileUrl} target="_blank" rel="noreferrer">
-                    Read Book <ArrowRight size={16} />
-                  </a>
+                  
+                  {book.snippet ? (
+                    <div className="book-actions-group">
+                      <a className="book-read-link" href={`/books/${book.id}`} target="_blank" rel="noreferrer">
+                        Read Snippet <ArrowRight size={16} />
+                      </a>
+                      {book.purchaseLink && (
+                        <a className="book-buy-link" href={book.purchaseLink} target="_blank" rel="noreferrer">
+                          Buy Book <Globe size={14} />
+                        </a>
+                      )}
+                    </div>
+                  ) : (
+                    <a className="book-read-link" href={book.bookFileUrl} target="_blank" rel="noreferrer">
+                      Read Full Book <ArrowRight size={16} />
+                    </a>
+                  )}
                 </div>
               </motion.article>
             ))}

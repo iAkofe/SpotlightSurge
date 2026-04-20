@@ -1,0 +1,25 @@
+/* Extra styles for book actions */
+.book-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.book-buy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4f46e5;
+  text-decoration: none;
+  background: #e0e7ff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+.book-buy-link:hover {
+  background: #c7d2fe;
+}

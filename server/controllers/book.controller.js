@@ -4,15 +4,11 @@ import { uploadBookCover, uploadBookFile } from "../services/upload.service.js";
 import { publicBook } from "../utils.js";
 
 export async function createBook(req, res) {
-  const { title, description, genre, publishedYear } = req.body;
+  const { title, description, genre, publishedYear, purchaseLink, snippet } = req.body;
   const bookFile = req.files?.bookFile?.[0];
   const coverImage = req.files?.coverImage?.[0];
 
-  if (!bookFile) {
-    throw new AppError(400, "bookFile is required.");
-  }
-
-  const bookFileUrl = await uploadBookFile(bookFile, req.auth.userId);
+  const bookFileUrl = bookFile ? await uploadBookFile(bookFile, req.auth.userId) : "";
   const coverImageUrl = coverImage ? await uploadBookCover(coverImage, req.auth.userId) : "";
 
   const created = await prisma.book.create({
@@ -22,6 +18,8 @@ export async function createBook(req, res) {
       description,
       genre,
       publishedYear,
+      purchaseLink,
+      snippet,
       bookFileUrl,
       coverImageUrl
     }

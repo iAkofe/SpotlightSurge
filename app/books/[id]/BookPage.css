@@ -1,0 +1,265 @@
+.book-snippet-page {
+  background-color: #fafafa;
+  min-height: 100vh;
+  color: #1a1a1a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.book-snippet-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.book-snippet-container.narrow {
+  max-width: 720px;
+}
+
+/* HERO SECTION */
+.book-snippet-hero {
+  padding: 6rem 0 4rem;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.book-hero-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 3rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.book-hero-cover {
+  width: 100%;
+  aspect-ratio: 2/3;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+
+.book-hero-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.book-hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.book-genre-tag {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #4f46e5;
+  background: rgba(255,255,255,0.8);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.book-hero-content h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.book-author-strip {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.book-author-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: #4b5563;
+  transition: color 0.2s ease;
+}
+
+.book-author-link:hover {
+  color: #111827;
+}
+
+.book-author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #e0e7ff;
+  color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.book-author-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-description {
+  margin-top: 1rem;
+}
+
+.book-description h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.book-description p {
+  font-size: 1.05rem;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.book-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-buy-book {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #111827;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.btn-buy-book:hover {
+  background: #374151;
+}
+
+.btn-read-free {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.8);
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.btn-read-free:hover {
+  background: #fff;
+}
+
+/* SNIPPET CONTENT */
+.book-snippet-content {
+  padding: 4rem 0 6rem;
+}
+
+.snippet-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.snippet-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.snippet-divider {
+  width: 40px;
+  height: 4px;
+  background: #4f46e5;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.snippet-text {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #374151;
+  margin-bottom: 3rem;
+}
+
+.snippet-text p {
+  margin-bottom: 1.5rem;
+}
+
+.snippet-text p:last-child {
+  margin-bottom: 0;
+}
+
+.snippet-footer {
+  text-align: center;
+  padding-top: 3rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.snippet-footer p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .book-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .book-hero-cover {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  .book-hero-content {
+    text-align: center;
+    align-items: center;
+  }
+
+  .book-actions-bar {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-buy-book, .btn-read-free {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, Globe, MapPin, Search, User, ArrowRight } from "lucide-react";
 import "./Archive.css";
+import "./Archive-extra.css";
 
 function normalize(value) {
   return (value || "").toString().trim().toLowerCase();
@@ -176,9 +177,22 @@ export default function Archive({ initialAuthors, initialBooks }) {
                         {pickExcerpt(book.description, 120) || "No description provided yet."}
                       </p>
                       <div className="archive-item-footer">
-                        <a className="archive-action-link" href={book.bookFileUrl} target="_blank" rel="noreferrer">
-                          Read Now <ArrowRight size={16} />
-                        </a>
+                        {book.snippet ? (
+                          <div className="book-actions-group">
+                            <a className="archive-action-link" href={`/books/${book.id}`} target="_blank" rel="noreferrer">
+                              Read Snippet <ArrowRight size={16} />
+                            </a>
+                            {book.purchaseLink && (
+                              <a className="book-buy-link" href={book.purchaseLink} target="_blank" rel="noreferrer">
+                                Buy Book <Globe size={14} />
+                              </a>
+                            )}
+                          </div>
+                        ) : (
+                          <a className="archive-action-link" href={book.bookFileUrl} target="_blank" rel="noreferrer">
+                            Read Full Book <ArrowRight size={16} />
+                          </a>
+                        )}
                       </div>
                     </div>
                   </motion.article>

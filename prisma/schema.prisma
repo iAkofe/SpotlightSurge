@@ -58,6 +58,8 @@ model Book {
   publishedYear Int?
   bookFileUrl   String
   coverImageUrl String   @default("")
+  purchaseLink  String   @default("")
+  snippet       String   @default("")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
