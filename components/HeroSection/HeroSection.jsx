@@ -69,8 +69,8 @@ export default async function HeroSection() {
           </div>
         </div>
         <div className="hero-gallery">
-          {heroImages.map((image) => (
-            <div className="hero-card" key={image.src}>
+          {heroImages.map((image, index) => (
+            <div className="hero-card" key={`${image.src}-${index}`}>
               <img src={image.src} alt={image.alt} />
             </div>
           ))}
