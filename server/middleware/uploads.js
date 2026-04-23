@@ -1,3 +1,6 @@
+import crypto from "node:crypto";
+import os from "node:os";
+import path from "node:path";
 import multer from "multer";
 import { AppError } from "./errors.js";
 
@@ -9,7 +12,14 @@ const bookMimeTypes = new Set([
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 ]);
 
-const storage = multer.memoryStorage();
+const storage = multer.diskStorage({
+  destination: os.tmpdir(),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname || "");
+    const suffix = crypto.randomBytes(10).toString("hex");
+    cb(null, `ss-upload-${Date.now()}-${suffix}${ext}`);
+  }
+});
 
 function filterAuthorImage(req, file, cb) {
   if (!imageMimeTypes.has(file.mimetype)) {

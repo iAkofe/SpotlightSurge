@@ -1,0 +1,64 @@
+.post-like {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.post-like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  padding: 0.55rem 0.85rem;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  color: #111827;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.post-like-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(79, 70, 229, 0.35);
+}
+
+.post-like-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.post-like-btn .heart {
+  color: rgba(239, 68, 68, 0.7);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.post-like-btn .count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.2ch;
+  padding-left: 0.35rem;
+  color: #6b7280;
+  font-weight: 750;
+}
+
+.post-like-btn.liked {
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(254, 226, 226, 0.6);
+}
+
+.post-like-btn.liked .heart {
+  color: #ef4444;
+}
+
+.post-like-error {
+  font-size: 0.85rem;
+  color: #b91c1c;
+  font-weight: 600;
+}
+

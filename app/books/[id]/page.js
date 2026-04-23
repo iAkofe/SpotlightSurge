@@ -1,5 +1,6 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import CommentsWidget from "@/components/CommentsWidget/CommentsWidget";
 import { notFound } from "next/navigation";
 import { ArrowRight, Globe, MapPin } from "lucide-react";
 import "./BookPage.css";
@@ -118,6 +119,12 @@ export default async function BookSnippetPage({ params }) {
             </div>
           </section>
         )}
+
+        <section className="book-snippet-content">
+          <div className="book-snippet-container narrow">
+            <CommentsWidget targetType="book" targetId={book.id} />
+          </div>
+        </section>
       </main>
       <Footer />
     </>

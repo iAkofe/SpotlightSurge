@@ -26,6 +26,59 @@ const demoUsers = [
   }
 ];
 
+const seededReaders = [
+  {
+    email: "aisha.reader@spotlightsurge.dev",
+    name: "Aisha Okafor",
+    role: "READER",
+    password: "SpotlightReader123!",
+    bio: "",
+    website: "",
+    location: "Abuja, Nigeria",
+    profileImageUrl: "https://randomuser.me/api/portraits/women/22.jpg"
+  },
+  {
+    email: "marco.reader@spotlightsurge.dev",
+    name: "Marco Silva",
+    role: "READER",
+    password: "SpotlightReader123!",
+    bio: "",
+    website: "",
+    location: "Lisbon, Portugal",
+    profileImageUrl: "https://randomuser.me/api/portraits/men/22.jpg"
+  },
+  {
+    email: "sophia.reader@spotlightsurge.dev",
+    name: "Sophia Nguyen",
+    role: "READER",
+    password: "SpotlightReader123!",
+    bio: "",
+    website: "",
+    location: "Ho Chi Minh City, Vietnam",
+    profileImageUrl: "https://randomuser.me/api/portraits/women/41.jpg"
+  },
+  {
+    email: "david.reader@spotlightsurge.dev",
+    name: "David Mensah",
+    role: "READER",
+    password: "SpotlightReader123!",
+    bio: "",
+    website: "",
+    location: "Kumasi, Ghana",
+    profileImageUrl: "https://randomuser.me/api/portraits/men/41.jpg"
+  },
+  {
+    email: "lena.reader@spotlightsurge.dev",
+    name: "Lena Petrova",
+    role: "READER",
+    password: "SpotlightReader123!",
+    bio: "",
+    website: "",
+    location: "Sofia, Bulgaria",
+    profileImageUrl: "https://randomuser.me/api/portraits/women/55.jpg"
+  }
+];
+
 const seededAuthors = [
   {
     email: "amaya.hart@spotlightsurge.dev",
@@ -231,8 +284,41 @@ function makePostsFor(author, offset) {
   ];
 }
 
+function pickMany(list, count, seed = 0) {
+  const result = [];
+  for (let index = 0; index < count; index += 1) {
+    result.push(pick(list, seed + index));
+  }
+  return result;
+}
+
+function makeBookComments(bookTitle) {
+  const templates = [
+    `Just finished the preview for “${bookTitle}” — the voice is so strong.`,
+    `Loved the pacing and the way the scenes land. Excited to read more of “${bookTitle}”.`,
+    `The characters already feel real. “${bookTitle}” pulled me in fast.`,
+    `This has a cozy vibe, but the tension is there. Great start to “${bookTitle}”.`,
+    `Beautiful writing. The descriptions in “${bookTitle}” are vivid without being heavy.`,
+    `I’m bookmarking this. “${bookTitle}” feels like something I’ll recommend to friends.`
+  ];
+  return templates;
+}
+
+function makePostComments(postTitle) {
+  const templates = [
+    `This was a great read — thanks for sharing “${postTitle}”.`,
+    `I needed this today. “${postTitle}” hit at the right moment.`,
+    `The craft insight here is gold. I’m saving “${postTitle}” to revisit.`,
+    `Love the honesty in “${postTitle}”. More posts like this, please.`,
+    `This made me think differently about my own writing. Great post.`,
+    `Appreciate the behind-the-scenes details. Super helpful.`
+  ];
+  return templates;
+}
+
 async function main() {
-  const allUsers = [...demoUsers, ...seededAuthors];
+  const allUsers = [...demoUsers, ...seededReaders, ...seededAuthors];
+  const readers = [];
 
   for (const [index, user] of allUsers.entries()) {
     const passwordHash = await bcrypt.hash(user.password, 12);
@@ -261,6 +347,10 @@ async function main() {
     });
 
     console.log(`Upserted ${record.role} user: ${record.email}`);
+
+    if (record.role === "READER") {
+      readers.push(record);
+    }
 
     if (record.role !== "AUTHOR" && record.role !== "ADMIN") {
       continue;
@@ -299,6 +389,45 @@ async function main() {
     });
 
     console.log(`Seeded content for author: ${record.name}`);
+
+    const [createdBooks, createdPosts] = await Promise.all([
+      prisma.book.findMany({ where: { authorId: record.id }, orderBy: { createdAt: "desc" } }),
+      prisma.post.findMany({ where: { authorId: record.id }, orderBy: { createdAt: "desc" } })
+    ]);
+
+    if (readers.length) {
+      for (const [bookIndex, book] of createdBooks.entries()) {
+        const pickedReaders = pickMany(readers, Math.min(4, readers.length), index + bookIndex);
+        const commentBodies = makeBookComments(book.title);
+        await prisma.comment.createMany({
+          data: pickedReaders.map((reader, commentIndex) => ({
+            userId: reader.id,
+            bookId: book.id,
+            content: pick(commentBodies, commentIndex)
+          }))
+        });
+      }
+
+      for (const [postIndex, post] of createdPosts.entries()) {
+        const pickedReaders = pickMany(readers, Math.min(4, readers.length), index + postIndex);
+        const commentBodies = makePostComments(post.title);
+        await prisma.comment.createMany({
+          data: pickedReaders.map((reader, commentIndex) => ({
+            userId: reader.id,
+            postId: post.id,
+            content: pick(commentBodies, commentIndex)
+          }))
+        });
+
+        await prisma.postLike.createMany({
+          data: pickedReaders.map((reader) => ({
+            userId: reader.id,
+            postId: post.id
+          })),
+          skipDuplicates: true
+        });
+      }
+    }
   }
 }
 

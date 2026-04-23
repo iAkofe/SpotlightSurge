@@ -1,7 +1,7 @@
 import { prisma } from "../lib/prisma.js";
 import { AppError } from "../middleware/errors.js";
 import { uploadBookCover, uploadBookFile } from "../services/upload.service.js";
-import { publicBook } from "../utils.js";
+import { publicBook, publicComment } from "../utils.js";
 
 export async function createBook(req, res) {
   const { title, description, genre, publishedYear, purchaseLink, snippet } = req.body;
@@ -92,4 +92,67 @@ export async function deleteBook(req, res) {
 
   await prisma.book.delete({ where: { id } });
   res.status(204).send();
+}
+
+export async function listBookComments(req, res) {
+  const { id } = req.params;
+  const book = await prisma.book.findUnique({ where: { id }, select: { id: true } });
+  if (!book) {
+    throw new AppError(404, "Book not found.");
+  }
+
+  const comments = await prisma.comment.findMany({
+    where: { bookId: id },
+    orderBy: { createdAt: "desc" },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          profileImageUrl: true,
+          role: true
+        }
+      }
+    }
+  });
+
+  res.json({
+    comments: comments.map((comment) => ({
+      ...publicComment(comment),
+      user: comment.user
+    }))
+  });
+}
+
+export async function createBookComment(req, res) {
+  const { id } = req.params;
+  const book = await prisma.book.findUnique({ where: { id }, select: { id: true } });
+  if (!book) {
+    throw new AppError(404, "Book not found.");
+  }
+
+  const created = await prisma.comment.create({
+    data: {
+      bookId: id,
+      userId: req.auth.userId,
+      content: req.body.content
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          profileImageUrl: true,
+          role: true
+        }
+      }
+    }
+  });
+
+  res.status(201).json({
+    comment: {
+      ...publicComment(created),
+      user: created.user
+    }
+  });
 }

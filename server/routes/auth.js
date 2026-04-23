@@ -1,5 +1,7 @@
+import crypto from "node:crypto";
 import express from "express";
 import passport from "passport";
+import { config } from "../config.js";
 import {
   listAuthors,
   login,
@@ -22,7 +24,12 @@ import {
   upgradeToAuthorSchema
 } from "../validators/auth.validator.js";
 import { AppError } from "../middleware/errors.js";
-import { ensureOAuthEnabled, oauthCallbackHandler } from "../services/oauth.service.js";
+import {
+  consumeOAuthStateCookie,
+  ensureOAuthEnabled,
+  oauthCallbackHandler,
+  setOAuthStateCookie
+} from "../services/oauth.service.js";
 
 const router = express.Router();
 
@@ -62,12 +69,22 @@ router.get("/oauth/google", (req, res, next) => {
     next(new AppError(503, "Google OAuth is not configured."));
     return;
   }
-  passport.authenticate("google", { scope: ["profile", "email"], session: false })(req, res, next);
+  const state = crypto.randomBytes(24).toString("hex");
+  setOAuthStateCookie(res, state);
+  passport.authenticate("google", { scope: ["profile", "email"], session: false, state })(req, res, next);
 });
 
 router.get("/oauth/google/callback", (req, res, next) => {
   if (!ensureOAuthEnabled("google")) {
     next(new AppError(503, "Google OAuth is not configured."));
+    return;
+  }
+
+  const expectedState = consumeOAuthStateCookie(req, res);
+  const providedState = typeof req.query.state === "string" ? req.query.state : "";
+  if (!expectedState || !providedState || expectedState !== providedState) {
+    const message = encodeURIComponent("Social login failed.");
+    res.redirect(`${config.clientOrigin}/auth?error=${message}`);
     return;
   }
 
@@ -80,12 +97,22 @@ router.get("/oauth/facebook", (req, res, next) => {
     return;
   }
 
-  passport.authenticate("facebook", { scope: ["email"], session: false })(req, res, next);
+  const state = crypto.randomBytes(24).toString("hex");
+  setOAuthStateCookie(res, state);
+  passport.authenticate("facebook", { scope: ["email"], session: false, state })(req, res, next);
 });
 
 router.get("/oauth/facebook/callback", (req, res, next) => {
   if (!ensureOAuthEnabled("facebook")) {
     next(new AppError(503, "Facebook OAuth is not configured."));
+    return;
+  }
+
+  const expectedState = consumeOAuthStateCookie(req, res);
+  const providedState = typeof req.query.state === "string" ? req.query.state : "";
+  if (!expectedState || !providedState || expectedState !== providedState) {
+    const message = encodeURIComponent("Social login failed.");
+    res.redirect(`${config.clientOrigin}/auth?error=${message}`);
     return;
   }
 

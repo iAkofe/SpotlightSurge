@@ -237,6 +237,15 @@ export default function AuthorProfile({ authorId }) {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="profile-post-card" 
                 key={post.id}
+                role="link"
+                tabIndex={0}
+                onClick={() => window.location.assign(`/posts/${post.id}`)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    window.location.assign(`/posts/${post.id}`);
+                  }
+                }}
               >
                 {post.coverImage && (
                   <div className="profile-post-cover">

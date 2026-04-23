@@ -30,6 +30,8 @@ model User {
   profileImageUrl String         @default("")
   books           Book[]
   posts           Post[]
+  comments        Comment[]
+  postLikes       PostLike[]
   refreshTokens   RefreshToken[]
   oauthAccounts   OAuthAccount[]
   createdAt       DateTime       @default(now())
@@ -60,6 +62,7 @@ model Book {
   coverImageUrl String   @default("")
   purchaseLink  String   @default("")
   snippet       String   @default("")
+  comments      Comment[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -76,10 +79,42 @@ model Post {
   content     String
   coverImage  String   @default("")
   isPublished Boolean  @default(true)
+  comments    Comment[]
+  likes       PostLike[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([authorId, createdAt])
+}
+
+model PostLike {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
+  @@index([userId, createdAt])
+  @@index([postId, createdAt])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookId    String?
+  book      Book?    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  postId    String?
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([bookId, createdAt])
+  @@index([postId, createdAt])
+  @@index([userId, createdAt])
 }
 
 model RefreshToken {

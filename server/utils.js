@@ -44,3 +44,15 @@ export function publicPost(post) {
     updatedAt: post.updatedAt
   };
 }
+
+export function publicComment(comment) {
+  return {
+    id: comment.id,
+    userId: comment.userId,
+    bookId: comment.bookId,
+    postId: comment.postId,
+    content: comment.content,
+    createdAt: comment.createdAt,
+    updatedAt: comment.updatedAt
+  };
+}

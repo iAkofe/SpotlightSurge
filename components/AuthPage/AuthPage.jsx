@@ -31,6 +31,20 @@ async function parseJson(response) {
   return response.json();
 }
 
+async function refreshSession() {
+  const response = await fetch(`${API_BASE}/api/auth/refresh`, {
+    method: "POST",
+    credentials: "include"
+  });
+
+  const data = await parseJson(response);
+  if (!response.ok) {
+    return null;
+  }
+
+  return data;
+}
+
 function getInitialMode() {
   if (typeof window === "undefined") {
     return "login";
@@ -82,34 +96,33 @@ export default function AuthPage() {
   useEffect(() => {
     setMode(getInitialMode());
 
-    try {
-      const savedToken = window.localStorage.getItem("ss_access_token") || "";
-      if (savedToken) {
-        setToken(savedToken);
-      }
-
+    async function restoreFromCookies() {
       const params = new URLSearchParams(window.location.search);
-      const socialToken = params.get("accessToken");
       const socialError = params.get("error");
-
-      if (socialToken) {
-        window.localStorage.setItem("ss_access_token", socialToken);
-        setToken(socialToken);
-        setStatus({ type: "success", message: "Social login successful." });
-        params.delete("accessToken");
-        params.delete("error");
-        window.history.replaceState({}, "", `/auth?${params.toString() || "mode=login"}`);
-        return;
-      }
+      const oauthSuccess = params.get("oauth") === "success";
 
       if (socialError) {
         setStatus({ type: "error", message: socialError });
         params.delete("error");
-        window.history.replaceState({}, "", `/auth?${params.toString() || "mode=login"}`);
       }
-    } catch {
-      setStatus({ type: "error", message: "Unable to access browser storage for session state." });
+
+      if (oauthSuccess) {
+        setStatus({ type: "success", message: "Social login successful." });
+        params.delete("oauth");
+      }
+
+      window.history.replaceState({}, "", `/auth?${params.toString() || "mode=login"}`);
+
+      const refreshed = await refreshSession();
+      if (refreshed?.accessToken) {
+        setToken(refreshed.accessToken);
+        setUser(refreshed.user || null);
+      }
     }
+
+    restoreFromCookies().catch((error) => {
+      setStatus({ type: "error", message: readErrorMessage(error) });
+    });
   }, []);
 
   useEffect(() => {
@@ -138,7 +151,6 @@ export default function AuthPage() {
       } catch (error) {
         setStatus({ type: "error", message: readErrorMessage(error) });
         setToken("");
-        window.localStorage.removeItem("ss_access_token");
       }
     }
 
@@ -199,7 +211,6 @@ export default function AuthPage() {
 
       setToken(data.accessToken);
       setUser(data.user);
-      window.localStorage.setItem("ss_access_token", data.accessToken);
       setStatus({
         type: "success",
         message: mode === "signup" ? "Account created successfully." : `Welcome back, ${data.user.name}.`
@@ -255,7 +266,6 @@ export default function AuthPage() {
     } finally {
       setToken("");
       setUser(null);
-      window.localStorage.removeItem("ss_access_token");
       setLoading(false);
     }
   }

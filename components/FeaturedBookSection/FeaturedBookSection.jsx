@@ -1,11 +1,5 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
-function getRating(title = "") {
-  const base = 4.2;
-  const bump = Math.min(0.7, ((title.length || 0) % 9) / 20);
-  return Math.round((base + bump) * 10) / 10;
-}
-
 export default async function FeaturedBookSection() {
   let featured = {
     title: "Featured Book",
@@ -33,8 +27,6 @@ export default async function FeaturedBookSection() {
     }
   } catch {}
 
-  const rating = getRating(featured.title);
-
   return (
     <section id="books" className="book-feature-section">
       <div className="container">
@@ -59,10 +51,6 @@ export default async function FeaturedBookSection() {
               <article className="book-meta-item">
                 <span>Genre</span>
                 <strong>{featured.genre}</strong>
-              </article>
-              <article className="book-meta-item">
-                <span>Reader Rating</span>
-                <strong>{rating} / 5</strong>
               </article>
             </div>
             <div className="book-chips">

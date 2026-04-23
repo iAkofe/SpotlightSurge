@@ -7,6 +7,8 @@ import { config } from "../config.js";
 import { prisma } from "../lib/prisma.js";
 import { issueSession } from "./session.service.js";
 
+const OAUTH_STATE_COOKIE = "ss_oauth_state";
+
 function oauthEnabled(provider) {
   if (provider === "google") {
     return Boolean(config.googleClientId && config.googleClientSecret && config.googleCallbackUrl);
@@ -58,6 +60,26 @@ async function findOrCreateFromOAuth({ provider, providerUserId, email, name }) 
   });
 
   return user;
+}
+
+function oauthStateCookieOptions() {
+  return {
+    httpOnly: true,
+    secure: config.env === "production",
+    sameSite: "lax",
+    path: "/api/auth/oauth",
+    maxAge: 10 * 60 * 1000
+  };
+}
+
+export function setOAuthStateCookie(res, state) {
+  res.cookie(OAUTH_STATE_COOKIE, state, oauthStateCookieOptions());
+}
+
+export function consumeOAuthStateCookie(req, res) {
+  const state = req.cookies?.[OAUTH_STATE_COOKIE] || "";
+  res.clearCookie(OAUTH_STATE_COOKIE, oauthStateCookieOptions());
+  return state;
 }
 
 export function configureOAuth() {
@@ -130,8 +152,8 @@ export function oauthCallbackHandler(req, res, next) {
     }
 
     try {
-      const accessToken = await issueSession(user, res);
-      res.redirect(`${config.clientOrigin}/auth?accessToken=${encodeURIComponent(accessToken)}`);
+      await issueSession(user, res);
+      res.redirect(`${config.clientOrigin}/auth?oauth=success&mode=login`);
     } catch (issueError) {
       next(issueError);
     }

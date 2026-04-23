@@ -24,6 +24,28 @@ import "./AuthorDashboard.css";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
+async function parseJson(response) {
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    return null;
+  }
+  return response.json();
+}
+
+async function refreshSession() {
+  const response = await fetch(`${API_BASE}/api/auth/refresh`, {
+    method: "POST",
+    credentials: "include"
+  });
+
+  const data = await parseJson(response);
+  if (!response.ok) {
+    return null;
+  }
+
+  return data;
+}
+
 const initialPost = {
   title: "",
   category: "",
@@ -175,12 +197,19 @@ export default function AuthorDashboard() {
 
   useEffect(() => {
     setView(getInitialView());
-    const savedToken = window.localStorage.getItem("ss_access_token") || "";
-    if (!savedToken) {
-      window.location.replace("/auth?mode=login");
-      return;
+
+    async function restore() {
+      const refreshed = await refreshSession();
+      if (!refreshed?.accessToken) {
+        window.location.replace("/auth?mode=login");
+        return;
+      }
+      setToken(refreshed.accessToken);
     }
-    setToken(savedToken);
+
+    restore().catch(() => {
+      window.location.replace("/auth?mode=login");
+    });
   }, []);
 
   useEffect(() => {
@@ -398,7 +427,6 @@ export default function AuthorDashboard() {
         credentials: "include"
       });
     } finally {
-      window.localStorage.removeItem("ss_access_token");
       window.location.replace("/auth?mode=login");
     }
   }
@@ -637,7 +665,19 @@ export default function AuthorDashboard() {
                   ) : (
                     <div className="dashboard-post-list">
                       {posts.slice(0, 3).map((post) => (
-                        <article className="dashboard-post-row" key={post.id}>
+                        <article
+                          className="dashboard-post-row"
+                          key={post.id}
+                          role="link"
+                          tabIndex={0}
+                          onClick={() => window.location.assign(`/posts/${post.id}`)}
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " ") {
+                              event.preventDefault();
+                              window.location.assign(`/posts/${post.id}`);
+                            }
+                          }}
+                        >
                           <div className="dashboard-list-icon"><Edit3 /></div>
                           <div>
                             <strong>{post.title}</strong>
@@ -670,14 +710,33 @@ export default function AuthorDashboard() {
 
                 <section className="dashboard-book-grid">
                   {filteredBooks.map((book, index) => (
-                    <article className="dashboard-book-card" key={book.id}>
+                    <article
+                      className="dashboard-book-card"
+                      key={book.id}
+                      role="link"
+                      tabIndex={0}
+                      onClick={() => window.location.assign(`/books/${book.id}`)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          window.location.assign(`/books/${book.id}`);
+                        }
+                      }}
+                    >
                       <div className="dashboard-book-cover">
                         {book.coverImageUrl ? <img src={book.coverImageUrl} alt={book.title} /> : <BookOpen />}
                       </div>
                       <div className="dashboard-book-body">
                         <div className="dashboard-book-head">
                           <h2>{book.title}</h2>
-                          <button type="button" aria-label="Book actions"><MoreVertical /></button>
+                          <button
+                            type="button"
+                            aria-label="Book actions"
+                            onClick={(event) => event.stopPropagation()}
+                            onKeyDown={(event) => event.stopPropagation()}
+                          >
+                            <MoreVertical />
+                          </button>
                         </div>
                         <p>{book.description || "Add a description to help readers discover this title."}</p>
                         <div className="dashboard-book-meta">
@@ -708,7 +767,19 @@ export default function AuthorDashboard() {
 
                 <section className="dashboard-rows">
                   {posts.map((post) => (
-                    <article className="dashboard-feed-row" key={post.id}>
+                    <article
+                      className="dashboard-feed-row"
+                      key={post.id}
+                      role="link"
+                      tabIndex={0}
+                      onClick={() => window.location.assign(`/posts/${post.id}`)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          window.location.assign(`/posts/${post.id}`);
+                        }
+                      }}
+                    >
                       <div className="dashboard-list-icon"><Edit3 /></div>
                       <div className="dashboard-feed-copy">
                         <h2>{post.title}</h2>
@@ -717,7 +788,14 @@ export default function AuthorDashboard() {
                           {formatDate(post.createdAt)} {` ${estimateComments(`${post.id}-${post.title}`)} comments`}
                         </span>
                       </div>
-                      <button type="button" aria-label="Post actions"><MoreVertical /></button>
+                      <button
+                        type="button"
+                        aria-label="Post actions"
+                        onClick={(event) => event.stopPropagation()}
+                        onKeyDown={(event) => event.stopPropagation()}
+                      >
+                        <MoreVertical />
+                      </button>
                     </article>
                   ))}
 
