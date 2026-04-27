@@ -4,6 +4,7 @@
   "description": "SpotlightSurge Next.js app with author/book backend.",
   "type": "module",
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
