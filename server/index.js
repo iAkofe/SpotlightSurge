@@ -17,6 +17,9 @@ const app = express();
 configureOAuth();
 
 app.disable("x-powered-by");
+if (config.env === "production") {
+  app.set("trust proxy", 1);
+}
 
 app.use(
   cors({

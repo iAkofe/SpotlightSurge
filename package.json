@@ -9,6 +9,7 @@
     "start": "next start",
     "dev:api": "nodemon server/index.js",
     "start:api": "node server/index.js",
+    "start:api:prod": "prisma migrate deploy && node server/index.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
@@ -35,10 +36,10 @@
     "pino-http": "^10.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "prisma": "^6.5.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4",
-    "prisma": "^6.5.0"
+    "nodemon": "^3.1.4"
   }
 }

@@ -46,7 +46,7 @@ function refreshCookieOptions(expiresAt) {
   const options = {
     httpOnly: true,
     secure: config.env === "production",
-    sameSite: "lax",
+    sameSite: config.env === "production" ? "none" : "lax",
     path: "/api/auth"
   };
 
